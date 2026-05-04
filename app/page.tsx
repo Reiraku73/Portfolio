@@ -532,7 +532,7 @@ export default function Home() {
                     {[
                       { label: '▶ Video', href: 'https://youtube.com/TU_VIDEO_ID' },
                       { label: '↓ Demo APK', href: '/downloads/app.apk' },
-                      { label: '⌥ GitHub', href: 'https://github.com/Reiraku73' },
+                      { label: '⌥ Repo (privado)', href: 'mailto:mateo.orodaz4@gmail.com?subject=Solicitud código Manga Reader' },
                       { label: '✉ Email', href: 'mailto:mateo.orodaz4@gmail.com' },
                     ].map((btn, i) => (
                       <a key={btn.label} href={btn.href}
