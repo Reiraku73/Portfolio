@@ -531,7 +531,7 @@ export default function Home() {
                   <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 32 }}>
                     {[
                       { label: '▶ Video', href: 'https://youtube.com/TU_VIDEO_ID' },
-                      { label: '↓ Demo APK', href: '/downloads/app.apk' },
+                      // { label: '↓ Demo APK', href: '/downloads/app.apk' },
                       { label: '⌥ Repo (privado)', href: 'mailto:mateo.orodaz4@gmail.com?subject=Solicitud código Manga Reader' },
                       { label: '✉ Email', href: 'mailto:mateo.orodaz4@gmail.com' },
                     ].map((btn, i) => (
