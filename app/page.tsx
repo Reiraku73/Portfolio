@@ -181,7 +181,7 @@ function LibraryScreen() {
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative' }}>
       <Image
-        src="/screenshots/1.png"
+        src="/screenshots/MuestraApp1.png"
         alt="Biblioteca"
         fill
         style={{ objectFit: 'cover' }}
@@ -194,7 +194,7 @@ function DetailScreen(){
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative' }}>
       <Image
-        src="/screenshots/2.png"
+        src="/screenshots/MuestraApp2.png"
         alt="Detalle manga"
         fill
         style={{ objectFit: 'cover' }}
@@ -207,7 +207,7 @@ function ReaderScreen() {
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative' }}>
       <Image
-        src="/screenshots/3.png"
+        src="/screenshots/MuestraApp3.png"
         alt="Lector"
         fill
         style={{ objectFit: 'cover' }}
