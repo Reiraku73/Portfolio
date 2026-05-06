@@ -704,7 +704,7 @@ export default function Home() {
           padding: '24px 40px',
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         }}>
-          <span style={{ fontSize: 12, color: '#444', fontFamily: "'DM Mono', monospace" }}>© 2025 Mateo Orodaz</span>
+          <span style={{ fontSize: 12, color: '#444', fontFamily: "'DM Mono', monospace" }}>© 2026 Mateo Orodaz</span>
           <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.15)', fontFamily: "'DM Mono', monospace" }}>Built with Next.js · Supabase</span>
         </footer>
 
