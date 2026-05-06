@@ -530,15 +530,15 @@ export default function Home() {
 
                   <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 32 }}>
                     {[
-                      // { label: '▶ Video', href: 'https://youtube.com/TU_VIDEO_ID' },
-                      // { label: '↓ Demo APK', href: '/downloads/app.apk' },
+                      { label: '▶ Video', href: 'https://youtu.be/MQcM05u0m4A' },
+                      { label: '↓ Demo APK', href: 'https://github.com/Reiraku73/Tsundoku-app/releases' },
                       { label: '⌥ Repo (privado)', href: 'mailto:mateo.orodaz4@gmail.com?subject=Solicitud código Manga Reader' },
                       { label: '✉ Email', href: 'mailto:mateo.orodaz4@gmail.com' },
                     ].map((btn, i) => (
                       <a key={btn.label} href={btn.href}
                         target={btn.href.startsWith('mailto') ? undefined : '_blank'}
                         rel="noreferrer"
-                        download={btn.label.includes('APK') ? true : undefined}
+                        download={undefined}
                         style={{
                           fontSize: 12, padding: '8px 16px', borderRadius: 5,
                           border: `1px solid ${i === 0 ? 'rgba(232,25,44,0.4)' : i === 1 ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.07)'}`,
