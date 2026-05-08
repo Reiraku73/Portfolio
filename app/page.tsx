@@ -103,14 +103,14 @@ const T: Record<Lang, Translation> = {
 // ─────────────────────────────────────────────────────────────────
 // DATA
 // ─────────────────────────────────────────────────────────────────
-const COVERS = [
-  { title: 'Solo Leveling', g: 'linear-gradient(160deg,#0D1B3E,#1A2D5A)', acc: '#4A90D9' },
-  { title: 'Berserk',       g: 'linear-gradient(160deg,#1C0808,#2D1010)', acc: '#C0392B' },
-  { title: 'Chainsaw Man',  g: 'linear-gradient(160deg,#0D0D0D,#1C0A0A)', acc: '#E74C3C' },
-  { title: 'Spy×Family',    g: 'linear-gradient(160deg,#0A1628,#1A2B50)', acc: '#F39C12' },
-  { title: 'Frieren',       g: 'linear-gradient(160deg,#0E1B2A,#18283D)', acc: '#9B8ECF' },
-  { title: 'One Piece',     g: 'linear-gradient(160deg,#1A1200,#2D2000)', acc: '#F1C40F' },
-]
+// const COVERS = [
+//   { title: 'Solo Leveling', g: 'linear-gradient(160deg,#0D1B3E,#1A2D5A)', acc: '#4A90D9' },
+//   { title: 'Berserk',       g: 'linear-gradient(160deg,#1C0808,#2D1010)', acc: '#C0392B' },
+//   { title: 'Chainsaw Man',  g: 'linear-gradient(160deg,#0D0D0D,#1C0A0A)', acc: '#E74C3C' },
+//   { title: 'Spy×Family',    g: 'linear-gradient(160deg,#0A1628,#1A2B50)', acc: '#F39C12' },
+//   { title: 'Frieren',       g: 'linear-gradient(160deg,#0E1B2A,#18283D)', acc: '#9B8ECF' },
+//   { title: 'One Piece',     g: 'linear-gradient(160deg,#1A1200,#2D2000)', acc: '#F1C40F' },
+// ]
 
 const STACK_DATA = [
   { name: 'React Native', icon: '⚛', bg: '#0F1924', acc: '#61DAFB' },
