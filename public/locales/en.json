@@ -1,0 +1,47 @@
+{
+  "nav": {
+    "projects": "Projects",
+    "stack": "Stack",
+    "about": "About me",
+    "contact": "Contact"
+  },
+  "hero": {
+    "eyebrow": "Full Stack Developer",
+    "role": "focused on mobile apps",
+    "desc": "I build complete applications end to end. Currently developing a manga platform with support for independent creators.",
+    "btn": "See projects"
+  },
+  "project": {
+    "desc": "Platform to read and manage manga, manhwa and comics. With authentication, personal library and support for indie creator content.",
+    "cs": {
+      "problem": "Problem",
+      "problemText": "Existing platforms make it hard for indie creators to publish, and don't offer an optimized mobile reading experience.",
+      "solution": "Solution",
+      "solutionText": "Mobile app with auth, customizable library, configurable reader and support for official and indie content.",
+      "tech": "Tech stack",
+      "techText": "Supabase for auth, DB and storage. Zustand for global state. Local persistence for offline CBZ reading.",
+      "challenges": "Challenges",
+      "challengesText": "Offline reading with CBZ, efficient image rendering and cross-device progress sync.",
+      "result": "Outcome",
+      "resultText": "Functional app with complete user system, online/offline reading and scalable architecture for creators."
+    }
+  },
+  "stack": {
+    "title": "Technologies"
+  },
+  "about": {
+    "title": "About me",
+    "text": "I'm a junior full stack developer focused on mobile. I'm interested in building real products, thinking about both user experience and backend infrastructure. I learn by building concrete things.",
+    "stat1": "App in active development",
+    "stat2": "Full Stack Junior Dev",
+    "stat3": "Mobile First"
+  },
+  "contact": {
+    "title": "Let's talk.",
+    "sub": "Open to opportunities and collaborations.",
+    "email": "Send email"
+  },
+  "phone": {
+    "thumbs": ["Library", "Detail", "Reader"]
+  }
+}

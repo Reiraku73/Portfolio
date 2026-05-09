@@ -1,0 +1,47 @@
+{
+  "nav": {
+    "projects": "Proyectos",
+    "stack": "Stack",
+    "about": "Sobre mí",
+    "contact": "Contacto"
+  },
+  "hero": {
+    "eyebrow": "Full Stack Developer",
+    "role": "enfocado en apps mobile",
+    "desc": "Construyo aplicaciones completas de principio a fin. Actualmente desarrollando una plataforma de manga con soporte para creadores independientes.",
+    "btn": "Ver proyectos"
+  },
+  "project": {
+    "desc": "Plataforma para leer y gestionar mangas, manhwas y cómics. Autenticación, biblioteca personal y soporte para contenido de creadores independientes.",
+    "cs": {
+      "problem": "Problema",
+      "problemText": "Las plataformas existentes dificultan la publicación a creadores indie y no ofrecen una experiencia de lectura mobile optimizada.",
+      "solution": "Solución",
+      "solutionText": "App mobile con auth, biblioteca personalizable, lector configurable y soporte para contenido oficial e independiente.",
+      "tech": "Stack técnico",
+      "techText": "Supabase para auth, DB y storage. Zustand para estado global. Persistencia local para lectura offline con CBZ.",
+      "challenges": "Desafíos",
+      "challengesText": "Lectura offline con CBZ, renderizado eficiente de imágenes y sincronización del progreso entre dispositivos.",
+      "result": "Resultado",
+      "resultText": "App funcional con sistema de usuarios completo, lectura online/offline y arquitectura escalable para creadores."
+    }
+  },
+  "stack": {
+    "title": "Tecnologías"
+  },
+  "about": {
+    "title": "Sobre mí",
+    "text": "Soy desarrollador full stack junior con foco en mobile. Me interesa construir productos reales, pensando tanto en la experiencia de usuario como en la infraestructura del sistema. Aprendo construyendo cosas concretas.",
+    "stat1": "App en desarrollo activo",
+    "stat2": "Full Stack Dev Junior",
+    "stat3": "Mobile First"
+  },
+  "contact": {
+    "title": "Hablemos.",
+    "sub": "Abierto a oportunidades y colaboraciones.",
+    "email": "Enviar email"
+  },
+  "phone": {
+    "thumbs": ["Biblioteca", "Detalle", "Lector"]
+  }
+}

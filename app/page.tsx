@@ -1,117 +1,20 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
+import '../lib/i18n'
+import { useTranslation } from 'react-i18next'
 
 // ─────────────────────────────────────────────────────────────────
 // TYPES
 // ─────────────────────────────────────────────────────────────────
 type Lang = 'es' | 'en'
 
-interface Translation {
-  navLinks: string[]
-  eyebrow: string
-  role: string
-  desc: string
-  heroBtn1: string
-  lblProyecto: string
-  lblStack: string
-  lblAbout: string
-  lblContacto: string
-  projDesc: string
-  csP: string; csPt: string
-  csS: string; csSt: string
-  csT: string; csTt: string
-  csC: string; csCt: string
-  csR: string; csRt: string
-  stackTitle: string
-  aboutTitle: string
-  aboutText: string
-  stat1: string; stat2: string; stat3: string
-  contactTitle: string
-  contactSub: string
-  contactEmail: string
-  thumbLabels: string[]
-  screenL1: string
-  screenL2: string
-  tabs: string[]
-  genres: string
-  continuar: string
-  capitulos: string
-  caps: { n: string; s: string }[]
-}
-
-// ─────────────────────────────────────────────────────────────────
-// TRANSLATIONS
-// ─────────────────────────────────────────────────────────────────
-const T: Record<Lang, Translation> = {
-  es: {
-    navLinks: ['Proyecto', 'Stack', 'Sobre mí', 'Contacto'],
-    eyebrow: 'Full Stack Developer',
-    role: 'enfocado en apps mobile',
-    desc: 'Construyo aplicaciones completas de principio a fin. Actualmente desarrollando una plataforma de manga con soporte para creadores independientes.',
-    heroBtn1: 'Ver proyecto',
-    lblProyecto: 'PROYECTO', lblStack: 'STACK', lblAbout: 'SOBRE MÍ', lblContacto: 'CONTACTO',
-    projDesc: 'Plataforma para leer y gestionar mangas, manhwas y cómics. Autenticación, biblioteca personal y soporte para contenido de creadores independientes.',
-    csP: 'Problema', csPt: 'Las plataformas existentes dificultan la publicación a creadores indie y no ofrecen una experiencia de lectura mobile optimizada.',
-    csS: 'Solución', csSt: 'App mobile con auth, biblioteca personalizable, lector configurable y soporte para contenido oficial e independiente.',
-    csT: 'Stack técnico', csTt: 'Supabase para auth, DB y storage. Zustand para estado global. Persistencia local para lectura offline con CBZ.',
-    csC: 'Desafíos', csCt: 'Lectura offline con CBZ, renderizado eficiente de imágenes y sincronización del progreso entre dispositivos.',
-    csR: 'Resultado', csRt: 'App funcional con sistema de usuarios completo, lectura online/offline y arquitectura escalable para creadores.',
-    stackTitle: 'Tecnologías',
-    aboutTitle: 'Sobre mí',
-    aboutText: 'Soy desarrollador full stack junior con foco en mobile. Me interesa construir productos reales, pensando tanto en la experiencia de usuario como en la infraestructura del sistema. Aprendo construyendo cosas concretas.',
-    stat1: 'App en desarrollo activo', stat2: 'Full Stack Dev Junior', stat3: 'Mobile First',
-    contactTitle: 'Hablemos.', contactSub: 'Abierto a oportunidades y colaboraciones.', contactEmail: 'Enviar email',
-    thumbLabels: ['Biblioteca', 'Detalle', 'Lector'],
-    screenL1: 'Mi Biblioteca', screenL2: 'Solo Leveling',
-    tabs: ['Leyendo', 'Completado', 'Plan'],
-    genres: 'MANHWA · ACCIÓN · FANTASÍA',
-    continuar: 'Continuar leyendo',
-    capitulos: 'Capítulos',
-    caps: [{ n: 'Cap. 179', s: 'El rey sombra' }, { n: 'Cap. 178', s: 'El despertar' }, { n: 'Cap. 177', s: 'El sistema' }],
-  },
-  en: {
-    navLinks: ['Project', 'Stack', 'About', 'Contact'],
-    eyebrow: 'Full Stack Developer',
-    role: 'focused on mobile apps',
-    desc: 'I build complete applications end to end. Currently developing a manga platform with support for independent creators.',
-    heroBtn1: 'See project',
-    lblProyecto: 'PROJECT', lblStack: 'STACK', lblAbout: 'ABOUT ME', lblContacto: 'CONTACT',
-    projDesc: 'Platform to read and manage manga, manhwa and comics. With authentication, personal library and support for indie creator content.',
-    csP: 'Problem', csPt: "Existing platforms make it hard for indie creators to publish, and don't offer an optimized mobile reading experience.",
-    csS: 'Solution', csSt: 'Mobile app with auth, customizable library, configurable reader and support for official and indie content.',
-    csT: 'Tech stack', csTt: 'Supabase for auth, DB and storage. Zustand for global state. Local persistence for offline CBZ reading.',
-    csC: 'Challenges', csCt: 'Offline reading with CBZ, efficient image rendering and cross-device progress sync.',
-    csR: 'Outcome', csRt: 'Functional app with complete user system, online/offline reading and scalable architecture for creators.',
-    stackTitle: 'Technologies',
-    aboutTitle: 'About me',
-    aboutText: "I'm a junior full stack developer focused on mobile. I'm interested in building real products, thinking about both user experience and backend infrastructure. I learn by building concrete things.",
-    stat1: 'App in active development', stat2: 'Full Stack Junior Dev', stat3: 'Mobile First',
-    contactTitle: "Let's talk.", contactSub: 'Open to opportunities and collaborations.', contactEmail: 'Send email',
-    thumbLabels: ['Library', 'Detail', 'Reader'],
-    screenL1: 'My Library', screenL2: 'Solo Leveling',
-    tabs: ['Reading', 'Completed', 'Plan'],
-    genres: 'MANHWA · ACTION · FANTASY',
-    continuar: 'Continue reading',
-    capitulos: 'Chapters',
-    caps: [{ n: 'Ch. 179', s: 'The Shadow King' }, { n: 'Ch. 178', s: 'The Awakening' }, { n: 'Ch. 177', s: 'The System' }],
-  },
-}
-
 // ─────────────────────────────────────────────────────────────────
 // DATA
 // ─────────────────────────────────────────────────────────────────
-// const COVERS = [
-//   { title: 'Solo Leveling', g: 'linear-gradient(160deg,#0D1B3E,#1A2D5A)', acc: '#4A90D9' },
-//   { title: 'Berserk',       g: 'linear-gradient(160deg,#1C0808,#2D1010)', acc: '#C0392B' },
-//   { title: 'Chainsaw Man',  g: 'linear-gradient(160deg,#0D0D0D,#1C0A0A)', acc: '#E74C3C' },
-//   { title: 'Spy×Family',    g: 'linear-gradient(160deg,#0A1628,#1A2B50)', acc: '#F39C12' },
-//   { title: 'Frieren',       g: 'linear-gradient(160deg,#0E1B2A,#18283D)', acc: '#9B8ECF' },
-//   { title: 'One Piece',     g: 'linear-gradient(160deg,#1A1200,#2D2000)', acc: '#F1C40F' },
-// ]
-
 const STACK_DATA = [
   { name: 'React Native', icon: '⚛', bg: '#0F1924', acc: '#61DAFB' },
   { name: 'Expo',         icon: '◉', bg: '#111111', acc: '#DDDDDD' },
@@ -124,6 +27,23 @@ const STACK_DATA = [
 ]
 
 const CASE_STUDY_ICONS = ['◎', '◈', '⬡', '⚡', '✦']
+
+
+
+// ─── Projects ──────────────────────────────────────────────────────────────
+const PROJECTS = [
+  {
+    title: 'Manga Reader App',
+    tag: 'MANGA · MANHWA · CÓMICS',
+    links: [
+      { label: '▶ Video',          href: 'https://youtu.be/MQcM05u0m4A' },
+      { label: '↓ Demo APK',        href: 'https://github.com/Reiraku73/Tsundoku-app/releases' },
+      { label: '⌥ Repo (privado)', href: 'mailto:mateo.orodaz4@gmail.com?subject=Solicitud código Manga Reader' },
+      { label: '✉ Email',           href: 'mailto:mateo.orodaz4@gmail.com' },
+    ],
+  },
+  // { title: 'Próximo projecto', tag: '...', links: [] },
+]
 
 // ─────────────────────────────────────────────────────────────────
 // HELPERS
@@ -190,7 +110,7 @@ function LibraryScreen() {
   )
 }
 
-function DetailScreen(){
+function DetailScreen() {
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative' }}>
       <Image
@@ -219,7 +139,7 @@ function ReaderScreen() {
 // ─────────────────────────────────────────────────────────────────
 // PHONE SHOWCASE
 // ─────────────────────────────────────────────────────────────────
-function PhoneShowcase({ t }: { t: Translation }) {
+function PhoneShowcase({ thumbLabels }: { thumbLabels: string[] }) {
   const [active, setActive] = useState(0)
   const [paused, setPaused] = useState(false)
 
@@ -236,18 +156,14 @@ function PhoneShowcase({ t }: { t: Translation }) {
   }
 
   const screens = [
-    <LibraryScreen key="lib"/>,
-    <DetailScreen  key="det"/>,
-    <ReaderScreen  key="read"/>,
-  ]
-  const thumbScreens = [
-    <LibraryScreen key="lib-t"/>,
-    <DetailScreen  key="det-t"/>,
-    <ReaderScreen  key="read-t"/>,
+    <LibraryScreen key="lib" />,
+    <DetailScreen  key="det" />,
+    <ReaderScreen  key="read" />,
   ]
 
   return (
     <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
+
       {/* Main phone */}
       <div style={{
         width: 160,
@@ -281,7 +197,7 @@ function PhoneShowcase({ t }: { t: Translation }) {
 
       {/* Thumbnails */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-        {thumbScreens.map((screen, i) => (
+        {screens.map((screen, i) => (
           <div key={i}>
             <div
               onClick={() => handleThumbClick(i)}
@@ -303,11 +219,12 @@ function PhoneShowcase({ t }: { t: Translation }) {
               </div>
             </div>
             <p style={{ fontSize: 9, color: '#555', fontFamily: "'DM Mono', monospace", textAlign: 'center', marginTop: 3, letterSpacing: '0.5px' }}>
-              {t.thumbLabels[i]}
+              {thumbLabels[i]}
             </p>
           </div>
         ))}
       </div>
+
     </div>
   )
 }
@@ -316,32 +233,48 @@ function PhoneShowcase({ t }: { t: Translation }) {
 // MAIN COMPONENT
 // ─────────────────────────────────────────────────────────────────
 export default function Home() {
-  const [lang, setLang] = useState<Lang>('es')
-  const t = T[lang]
+  const [activeProject, setActiveProject] = useState(0)
+  const { t, i18n } = useTranslation('common')
+  const lang = i18n.language as Lang
+
+  const switchLang = (l: Lang) => i18n.changeLanguage(l)
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
   }
 
-  const switchLang = (l: Lang) => setLang(l)
+  const thumbLabels = t('phone.thumbs', { returnObjects: true }) as string[]
 
   const caseStudy = [
-    { icon: CASE_STUDY_ICONS[0], label: t.csP, text: t.csPt, full: false },
-    { icon: CASE_STUDY_ICONS[1], label: t.csS, text: t.csSt, full: false },
-    { icon: CASE_STUDY_ICONS[2], label: t.csT, text: t.csTt, full: false },
-    { icon: CASE_STUDY_ICONS[3], label: t.csC, text: t.csCt, full: false },
-    { icon: CASE_STUDY_ICONS[4], label: t.csR, text: t.csRt, full: true  },
+    { icon: CASE_STUDY_ICONS[0], label: t('project.cs.problem'),    text: t('project.cs.problemText'),    full: false },
+    { icon: CASE_STUDY_ICONS[1], label: t('project.cs.solution'),   text: t('project.cs.solutionText'),   full: false },
+    { icon: CASE_STUDY_ICONS[2], label: t('project.cs.tech'),       text: t('project.cs.techText'),       full: false },
+    { icon: CASE_STUDY_ICONS[3], label: t('project.cs.challenges'), text: t('project.cs.challengesText'), full: false },
+    { icon: CASE_STUDY_ICONS[4], label: t('project.cs.result'),     text: t('project.cs.resultText'),     full: true  },
   ]
 
   return (
     <>
-      {/* Fonts */}
+      {/* Fonts + responsive */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
         * { box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body::-webkit-scrollbar { width: 3px; }
         body::-webkit-scrollbar-thumb { background: rgba(232,25,44,0.2); border-radius: 2px; }
+
+        @media (max-width: 768px) {
+          #nav-links { display: none !important; }
+          #project-grid { grid-template-columns: 1fr !important; }
+          #project-showcase { border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.07) !important; min-height: auto !important; padding: 32px 20px !important; }
+          #stack-grid { grid-template-columns: 1fr 1fr !important; }
+          #about-grid { grid-template-columns: 1fr !important; }
+          #about-stats { flex-direction: row !important; flex-wrap: wrap !important; }
+          #hero-section { padding: 60px 20px 80px !important; }
+          #contact-center { padding: 20px 0 40px !important; }
+          .section-pad { padding: 60px 20px !important; }
+          footer { flex-direction: column !important; gap: 8px !important; text-align: center !important; padding: 20px !important; }
+        }
       `}</style>
 
       <main style={{ background: '#0B0B0F', color: '#F0EAE0', minHeight: '100vh', fontFamily: "'DM Sans', sans-serif" }}>
@@ -357,8 +290,8 @@ export default function Home() {
           <span style={{ fontSize: 14, fontWeight: 600, letterSpacing: 2 }}>
             M<span style={{ color: '#E8192C' }}>.</span>O
           </span>
-          <div style={{ display: 'flex', gap: 28, alignItems: 'center' }}>
-            {['proyecto', 'stack', 'about', 'contacto'].map((id, i) => (
+          <div id="nav-links" style={{ display: 'flex', gap: 28, alignItems: 'center' }}>
+            {(['projects', 'stack', 'about', 'contact'] as const).map((id) => (
               <span
                 key={id}
                 onClick={() => scrollTo(id)}
@@ -370,9 +303,10 @@ export default function Home() {
                 onMouseEnter={e => (e.currentTarget.style.color = '#F0EAE0')}
                 onMouseLeave={e => (e.currentTarget.style.color = '#666')}
               >
-                {t.navLinks[i]}
+                {t(`nav.${id}`)}
               </span>
             ))}
+
             {/* Lang toggle */}
             <div style={{ display: 'flex', gap: 4, marginLeft: 16, borderLeft: '1px solid rgba(255,255,255,0.07)', paddingLeft: 16 }}>
               {(['es', 'en'] as Lang[]).map(l => (
@@ -403,14 +337,14 @@ export default function Home() {
             background: 'radial-gradient(circle, rgba(232,25,44,0.06) 0%, transparent 70%)',
             pointerEvents: 'none',
           }} />
-          <section style={{ padding: '80px 40px 100px', maxWidth: 1000, margin: '0 auto', position: 'relative' }}>
+          <section id="hero-section" style={{ padding: '80px 40px 100px', maxWidth: 1000, margin: '0 auto', position: 'relative' }}>
             <motion.div
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
               style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, letterSpacing: '3px', color: '#E8192C', textTransform: 'uppercase', marginBottom: 24, display: 'flex', alignItems: 'center', gap: 10 }}
             >
               <span style={{ display: 'inline-block', width: 32, height: 1, background: '#E8192C' }} />
-              {t.eyebrow}
+              {t('hero.eyebrow')}
             </motion.div>
 
             <motion.h1
@@ -433,7 +367,7 @@ export default function Home() {
               transition={{ duration: 0.65, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
               style={{ fontSize: 20, color: '#888', fontWeight: 300, marginBottom: 8 }}
             >
-              {t.role}
+              {t('hero.role')}
             </motion.p>
 
             <motion.p
@@ -441,7 +375,7 @@ export default function Home() {
               transition={{ duration: 0.65, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
               style={{ fontSize: 15, color: '#555', lineHeight: 1.7, maxWidth: 560, marginBottom: 32 }}
             >
-              {t.desc}
+              {t('hero.desc')}
             </motion.p>
 
             {/* Chips */}
@@ -466,7 +400,7 @@ export default function Home() {
               style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}
             >
               <button
-                onClick={() => scrollTo('proyecto')}
+                onClick={() => scrollTo('projects')}
                 style={{
                   background: '#E8192C', color: '#fff', border: 'none',
                   padding: '12px 24px', borderRadius: 6, fontSize: 13, fontWeight: 500,
@@ -476,7 +410,7 @@ export default function Home() {
                 onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(232,25,44,0.3)' }}
                 onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '' }}
               >
-                {t.heroBtn1} ↓
+                {t('hero.btn')} ↓
               </button>
               <a
                 href="https://github.com/Reiraku73" target="_blank" rel="noreferrer"
@@ -498,105 +432,163 @@ export default function Home() {
 
         <div style={{ maxWidth: 1000, margin: '0 auto', height: 1, background: 'rgba(255,255,255,0.07)' }} />
 
-        {/* ── PROJECT ─────────────────────────────────────────── */}
-        <section id="proyecto" style={{ padding: '80px 40px', maxWidth: 1000, margin: '0 auto' }}>
-          <FadeUp delay={0.05}><SectionLabel>01 / {t.lblProyecto}</SectionLabel></FadeUp>
+        {/* ── PROJECTS ─────────────────────────────────────────── */}
+        <section id="projects" className="section-pad" style={{ padding: '80px 40px', maxWidth: 1000, margin: '0 auto' }}>
+          <FadeUp delay={0.05}><SectionLabel>01 / {t('nav.projects')}</SectionLabel></FadeUp>
+
+          {/* Carousel header */}
           <FadeUp delay={0.12}>
-            <h2 style={{ fontFamily: "'Anton', sans-serif", fontSize: 'clamp(32px, 4vw, 48px)', marginBottom: 40, lineHeight: 1 }}>
-              Manga Reader App
-            </h2>
-          </FadeUp>
-
-          <FadeUp delay={0.18}>
-            <div style={{ background: '#111118', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, overflow: 'hidden' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
-
-                {/* Left: Phone showcase */}
-                <div style={{
-                  background: '#0A0A10', padding: 40,
-                  display: 'flex', justifyContent: 'center', alignItems: 'center',
-                  borderRight: '1px solid rgba(255,255,255,0.07)', minHeight: 460,
-                }}>
-                  <PhoneShowcase t={t} />
-                </div>
-
-                {/* Right: Info + Case study */}
-                <div style={{ padding: '36px 32px' }}>
-                  <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, color: '#E8192C', letterSpacing: 2, textTransform: 'uppercase', marginBottom: 8 }}>
-                    MANGA · MANHWA · CÓMICS
-                  </div>
-                  <h3 style={{ fontFamily: "'Anton', sans-serif", fontSize: 32, marginBottom: 12 }}>Manga Reader</h3>
-                  <p style={{ fontSize: 14, color: '#555', lineHeight: 1.7, marginBottom: 24 }}>{t.projDesc}</p>
-
-                  <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 32 }}>
-                    {[
-                      { label: '▶ Video', href: 'https://youtu.be/MQcM05u0m4A' },
-                      { label: '↓ Demo APK', href: 'https://github.com/Reiraku73/Tsundoku-app/releases' },
-                      { label: '⌥ Repo (privado)', href: 'mailto:mateo.orodaz4@gmail.com?subject=Solicitud código Manga Reader' },
-                      { label: '✉ Email', href: 'mailto:mateo.orodaz4@gmail.com' },
-                    ].map((btn, i) => (
-                      <a key={btn.label} href={btn.href}
-                        target={btn.href.startsWith('mailto') ? undefined : '_blank'}
-                        rel="noreferrer"
-                        download={undefined}
-                        style={{
-                          fontSize: 12, padding: '8px 16px', borderRadius: 5,
-                          border: `1px solid ${i === 0 ? 'rgba(232,25,44,0.4)' : i === 1 ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.07)'}`,
-                          color: i === 0 ? '#E8192C' : i === 1 ? '#F0EAE0' : '#888',
-                          background: i === 1 ? 'rgba(255,255,255,0.05)' : 'transparent',
-                          cursor: 'pointer', textDecoration: 'none', display: 'inline-flex',
-                          alignItems: 'center', gap: 6, fontFamily: "'DM Mono', monospace",
-                          transition: 'all .2s',
-                        }}
-                        onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'; e.currentTarget.style.color = '#F0EAE0' }}
-                        onMouseLeave={e => {
-                          e.currentTarget.style.borderColor = i === 0 ? 'rgba(232,25,44,0.4)' : i === 1 ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.07)'
-                          e.currentTarget.style.color = i === 0 ? '#E8192C' : i === 1 ? '#F0EAE0' : '#888'
-                        }}
-                      >{btn.label}</a>
-                    ))}
-                  </div>
-
-                  {/* Case study grid */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                    {caseStudy.map((item, i) => (
-                      <div
-                        key={i}
-                        style={{
-                          gridColumn: item.full ? '1 / -1' : undefined,
-                          background: 'rgba(255,255,255,0.02)',
-                          border: '1px solid rgba(255,255,255,0.07)',
-                          borderRadius: 12, padding: 18,
-                          transition: 'border-color .2s',
-                        }}
-                        onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(232,25,44,0.25)')}
-                        onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)')}
-                      >
-                        <span style={{ fontSize: 16, display: 'block', marginBottom: 8 }}>{item.icon}</span>
-                        <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, letterSpacing: 2, textTransform: 'uppercase', color: '#E8192C', marginBottom: 6 }}>
-                          {item.label}
-                        </div>
-                        <p style={{ fontSize: 12, color: '#555', lineHeight: 1.65 }}>{item.text}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 40 }}>
+              <h2 style={{ fontFamily: "'Anton', sans-serif", fontSize: 'clamp(32px, 4vw, 48px)', lineHeight: 1 }}>
+                {PROJECTS[activeProject].title}
+              </h2>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                {/* Counter */}
+                <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: '#555' }}>
+                  {String(activeProject + 1).padStart(2, '0')} / {String(PROJECTS.length).padStart(2, '0')}
+                </span>
+                {/* Arrows */}
+                {[
+                  { dir: -1, label: '←' },
+                  { dir:  1, label: '→' },
+                ].map(({ dir, label }) => (
+                  <button
+                    key={dir}
+                    onClick={() => setActiveProject(p => (p + dir + PROJECTS.length) % PROJECTS.length)}
+                    style={{
+                      width: 36, height: 36, borderRadius: 6,
+                      border: '1px solid rgba(255,255,255,0.1)',
+                      background: 'transparent', color: '#F0EAE0',
+                      cursor: 'pointer', fontSize: 14,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      transition: 'all .2s',
+                    }}
+                    onMouseEnter={e => { e.currentTarget.style.borderColor = '#E8192C'; e.currentTarget.style.color = '#E8192C' }}
+                    onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; e.currentTarget.style.color = '#F0EAE0' }}
+                  >{label}</button>
+                ))}
               </div>
             </div>
           </FadeUp>
+          <FadeUp delay={0.18}>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeProject}
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -30 }}
+                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                style={{ background: '#111118', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, overflow: 'hidden' }}
+              >
+                <div id="project-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
+
+                  {/* Left: Phone showcase */}
+                  <div id="project-showcase" style={{
+                    background: '#0A0A10', padding: 40,
+                    display: 'flex', justifyContent: 'center', alignItems: 'center',
+                    borderRight: '1px solid rgba(255,255,255,0.07)', minHeight: 460,
+                  }}>
+                    <PhoneShowcase thumbLabels={thumbLabels} />
+                  </div>
+
+                  {/* Right: Info + Case study */}
+                  <div style={{ padding: '36px 32px' }}>
+                    <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, color: '#E8192C', letterSpacing: 2, textTransform: 'uppercase', marginBottom: 8 }}>
+                      {PROJECTS[activeProject].tag}
+                    </div>
+                    <h3 style={{ fontFamily: "'Anton', sans-serif", fontSize: 32, marginBottom: 12 }}>
+                      {PROJECTS[activeProject].title}
+                    </h3>
+                    <p style={{ fontSize: 14, color: '#555', lineHeight: 1.7, marginBottom: 24 }}>
+                      {t('project.desc')}
+                    </p>
+
+                    {/* Links */}
+                    <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 32 }}>
+                      {PROJECTS[activeProject].links.map((btn, i) => (
+                        <a
+                          key={btn.label}
+                          href={btn.href}
+                          target={btn.href.startsWith('mailto') ? undefined : '_blank'}
+                          rel="noreferrer"
+                          style={{
+                            fontSize: 12, padding: '8px 16px', borderRadius: 5,
+                            border: `1px solid ${i === 0 ? 'rgba(232,25,44,0.4)' : i === 1 ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.07)'}`,
+                            color: i === 0 ? '#E8192C' : i === 1 ? '#F0EAE0' : '#888',
+                            background: i === 1 ? 'rgba(255,255,255,0.05)' : 'transparent',
+                            cursor: 'pointer', textDecoration: 'none', display: 'inline-flex',
+                            alignItems: 'center', gap: 6, fontFamily: "'DM Mono', monospace",
+                            transition: 'all .2s',
+                          }}
+                          onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'; e.currentTarget.style.color = '#F0EAE0' }}
+                          onMouseLeave={e => {
+                            e.currentTarget.style.borderColor = i === 0 ? 'rgba(232,25,44,0.4)' : i === 1 ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.07)'
+                            e.currentTarget.style.color = i === 0 ? '#E8192C' : i === 1 ? '#F0EAE0' : '#888'
+                          }}
+                        >
+                          {btn.label}
+                        </a>
+                      ))}
+                    </div>
+
+                    {/* Case study grid */}
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                      {caseStudy.map((item, i) => (
+                        <div
+                          key={i}
+                          style={{
+                            gridColumn: item.full ? '1 / -1' : undefined,
+                            background: 'rgba(255,255,255,0.02)',
+                            border: '1px solid rgba(255,255,255,0.07)',
+                            borderRadius: 12, padding: 18,
+                            transition: 'border-color .2s',
+                          }}
+                          onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(232,25,44,0.25)')}
+                          onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)')}
+                        >
+                          <span style={{ fontSize: 16, display: 'block', marginBottom: 8 }}>{item.icon}</span>
+                          <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, letterSpacing: 2, textTransform: 'uppercase', color: '#E8192C', marginBottom: 6 }}>
+                            {item.label}
+                          </div>
+                          <p style={{ fontSize: 12, color: '#555', lineHeight: 1.65 }}>{item.text}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </FadeUp>
+
+          {/* Dot indicators */}
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 8, marginTop: 24 }}>
+            {PROJECTS.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setActiveProject(i)}
+                style={{
+                  width: i === activeProject ? 24 : 6,
+                  height: 6, borderRadius: 3, border: 'none',
+                  background: i === activeProject ? '#E8192C' : 'rgba(255,255,255,0.15)',
+                  cursor: 'pointer', transition: 'all .3s ease', padding: 0,
+                }}
+              />
+            ))}
+          </div>
         </section>
 
         <div style={{ maxWidth: 1000, margin: '0 auto', height: 1, background: 'rgba(255,255,255,0.07)' }} />
 
         {/* ── STACK ───────────────────────────────────────────── */}
-        <section id="stack" style={{ padding: '80px 40px', maxWidth: 1000, margin: '0 auto' }}>
-          <FadeUp delay={0.05}><SectionLabel>02 / {t.lblStack}</SectionLabel></FadeUp>
+        <section id="stack" className="section-pad" style={{ padding: '80px 40px', maxWidth: 1000, margin: '0 auto' }}>
+          <FadeUp delay={0.05}><SectionLabel>02 / {t('nav.stack')}</SectionLabel></FadeUp>
           <FadeUp delay={0.12}>
             <h2 style={{ fontFamily: "'Anton', sans-serif", fontSize: 'clamp(32px, 4vw, 48px)', marginBottom: 40, lineHeight: 1 }}>
-              {t.stackTitle}
+              {t('stack.title')}
             </h2>
           </FadeUp>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10 }}>
+          <div id="stack-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10 }}>
             {STACK_DATA.map((s, i) => (
               <FadeUp key={s.name} delay={0.06 * i}>
                 <div
@@ -625,21 +617,21 @@ export default function Home() {
         <div style={{ maxWidth: 1000, margin: '0 auto', height: 1, background: 'rgba(255,255,255,0.07)' }} />
 
         {/* ── ABOUT ───────────────────────────────────────────── */}
-        <section id="about" style={{ padding: '80px 40px', maxWidth: 1000, margin: '0 auto' }}>
-          <FadeUp delay={0.05}><SectionLabel>03 / {t.lblAbout}</SectionLabel></FadeUp>
+        <section id="about" className="section-pad" style={{ padding: '80px 40px', maxWidth: 1000, margin: '0 auto' }}>
+          <FadeUp delay={0.05}><SectionLabel>03 / {t('nav.about')}</SectionLabel></FadeUp>
           <FadeUp delay={0.12}>
             <h2 style={{ fontFamily: "'Anton', sans-serif", fontSize: 'clamp(32px, 4vw, 48px)', marginBottom: 40, lineHeight: 1 }}>
-              {t.aboutTitle}
+              {t('about.title')}
             </h2>
           </FadeUp>
           <FadeUp delay={0.2}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 48, alignItems: 'start' }}>
-              <p style={{ fontSize: 15, color: '#555', lineHeight: 1.8, maxWidth: 480 }}>{t.aboutText}</p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 12, flexShrink: 0 }}>
+            <div id="about-grid" style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 48, alignItems: 'start' }}>
+              <p style={{ fontSize: 15, color: '#555', lineHeight: 1.8, maxWidth: 480 }}>{t('about.text')}</p>
+              <div id="about-stats" style={{ display: 'flex', flexDirection: 'column', gap: 12, flexShrink: 0 }}>
                 {[
-                  { num: '1', label: t.stat1 },
-                  { num: 'FS', label: t.stat2 },
-                  { num: '📱', label: t.stat3 },
+                  { num: '1',  label: t('about.stat1') },
+                  { num: 'FS', label: t('about.stat2') },
+                  { num: '📱', label: t('about.stat3') },
                 ].map(stat => (
                   <div key={stat.num} style={{
                     background: '#111118', border: '1px solid rgba(255,255,255,0.07)',
@@ -657,14 +649,14 @@ export default function Home() {
         <div style={{ maxWidth: 1000, margin: '0 auto', height: 1, background: 'rgba(255,255,255,0.07)' }} />
 
         {/* ── CONTACT ─────────────────────────────────────────── */}
-        <section id="contacto" style={{ padding: '80px 40px', maxWidth: 1000, margin: '0 auto' }}>
-          <FadeUp delay={0.05}><SectionLabel>04 / {t.lblContacto}</SectionLabel></FadeUp>
+        <section id="contact" className="section-pad" style={{ padding: '80px 40px', maxWidth: 1000, margin: '0 auto' }}>
+          <FadeUp delay={0.05}><SectionLabel>04 / {t('nav.contact')}</SectionLabel></FadeUp>
           <FadeUp delay={0.12}>
-            <div style={{ textAlign: 'center', padding: '40px 0 60px' }}>
+            <div id="contact-center" style={{ textAlign: 'center', padding: '40px 0 60px' }}>
               <h2 style={{ fontFamily: "'Anton', sans-serif", fontSize: 'clamp(40px, 6vw, 72px)', lineHeight: 1, marginBottom: 0 }}>
-                {t.contactTitle}
+                {t('contact.title')}
               </h2>
-              <p style={{ fontSize: 15, color: '#555', margin: '12px 0 32px' }}>{t.contactSub}</p>
+              <p style={{ fontSize: 15, color: '#555', margin: '12px 0 32px' }}>{t('contact.sub')}</p>
               <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
                 <a
                   href="mailto:mateo.orodaz4@gmail.com"
@@ -677,7 +669,7 @@ export default function Home() {
                   onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(232,25,44,0.3)' }}
                   onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '' }}
                 >
-                  {t.contactEmail} →
+                  {t('contact.email')} →
                 </a>
                 <a
                   href="https://github.com/Reiraku73" target="_blank" rel="noreferrer"
