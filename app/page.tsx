@@ -37,7 +37,7 @@ const PROJECTS = [
     tag: 'MANGA · MANHWA · CÓMICS',
     links: [
       { label: '▶ Video',          href: 'https://youtu.be/MQcM05u0m4A' },
-      { label: '↓ Demo APK',        href: 'https://github.com/Reiraku73/Tsundoku-app/releases' },
+      { label: '↓ Demo APK',        href: 'https://github.com/Reiraku73/Tsundoku-app' },
       { label: '⌥ Repo (privado)', href: 'mailto:mateo.orodaz4@gmail.com?subject=Solicitud código Manga Reader' },
       { label: '✉ Email',           href: 'mailto:mateo.orodaz4@gmail.com' },
     ],
