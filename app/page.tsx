@@ -26,23 +26,42 @@ const STACK_DATA = [
   { name: 'Next.js',      icon: '▲', bg: '#0A0A0A', acc: '#EEEEEE' },
 ]
 
-const CASE_STUDY_ICONS = ['◎', '◈', '⬡', '⚡', '✦']
-
-
-
 // ─── Projects ──────────────────────────────────────────────────────────────
 const PROJECTS = [
   {
-    title: 'Manga Reader App',
+    title: 'Tsundoku Reader App',
     tag: 'MANGA · MANHWA · CÓMICS',
+    type: 'mobile' as const,
     links: [
       { label: '▶ Video',          href: 'https://youtu.be/MQcM05u0m4A' },
       { label: '↓ Demo APK',        href: 'https://github.com/Reiraku73/Tsundoku-app/releases' },
       { label: '⌥ Repo (privado)', href: 'mailto:mateo.orodaz4@gmail.com?subject=Solicitud código Manga Reader' },
       { label: '✉ Email',           href: 'mailto:mateo.orodaz4@gmail.com' },
     ],
+    caseStudy: [
+      { icon: '◎', label: { es: 'Problema',     en: 'Problem'    }, text: { es: 'Las plataformas existentes dificultan la publicación a creadores indie y no ofrecen una experiencia de lectura mobile optimizada.', en: "Existing platforms make it hard for indie creators to publish, and don't offer an optimized mobile reading experience." }, full: false },
+      { icon: '◈', label: { es: 'Solución',     en: 'Solution'   }, text: { es: 'App mobile con auth, biblioteca personalizable, lector configurable y soporte para contenido oficial e independiente.',             en: 'Mobile app with auth, customizable library, configurable reader and support for official and indie content.'          }, full: false },
+      { icon: '⬡', label: { es: 'Stack técnico', en: 'Tech stack' }, text: { es: 'Supabase para auth, DB y storage. Zustand para estado global. Persistencia local para lectura offline con CBZ.',                   en: 'Supabase for auth, DB and storage. Zustand for global state. Local persistence for offline CBZ reading.'              }, full: false },
+      { icon: '⚡', label: { es: 'Desafíos',    en: 'Challenges' }, text: { es: 'Lectura offline con CBZ, renderizado eficiente de imágenes y sincronización del progreso entre dispositivos.',                        en: 'Offline reading with CBZ, efficient image rendering and cross-device progress sync.'                                  }, full: false },
+      { icon: '✦', label: { es: 'Resultado',    en: 'Outcome'    }, text: { es: 'App funcional con sistema de usuarios completo, lectura online/offline y arquitectura escalable para creadores.',                     en: 'Functional app with complete user system, online/offline reading and scalable architecture for creators.'              }, full: true  },
+    ],
   },
-  // { title: 'Próximo projecto', tag: '...', links: [] },
+  {
+    title: 'Diccionario Urbano',
+    tag: 'WEB · REACT · NODE.JS · MONGODB',
+    type: 'web' as const,
+    links: [
+      { label: '⌥ Repo (privado)', href: 'mailto:mateo.orodaz4@gmail.com?subject=Solicitud código Diccionario Urbano' },
+      { label: '✉ Email',           href: 'mailto:mateo.orodaz4@gmail.com' },
+    ],
+    caseStudy: [
+      { icon: '◎', label: { es: 'Problema',     en: 'Problem'    }, text: { es: 'No existe una plataforma de slang hispanohablante con soporte para regionalismos por país y moderación comunitaria y que a la vez tenga una aplicación para Android e IOs.',  en: 'There is no Spanish-language slang platform that supports regional expressions by country, community moderation, and a native Android & iOS app — all in one place.'                     }, full: false },
+      { icon: '◈', label: { es: 'Solución',     en: 'Solution'   }, text: { es: 'Web app donde usuarios pueden publicar, votar y moderar definiciones de jerga con filtros por país.',                  en: 'Web app where users can submit, vote and moderate slang definitions with country filters.'                       }, full: false },
+      { icon: '⬡', label: { es: 'Stack técnico', en: 'Tech stack' }, text: { es: 'React + Vite en el frontend. Node.js + Express en el backend. MongoDB con Mongoose. Deploy en Vercel y Railway.',     en: 'React + Vite on frontend. Node.js + Express on backend. MongoDB with Mongoose. Deployed on Vercel and Railway.'  }, full: false },
+      { icon: '⚡', label: { es: 'Desafíos',    en: 'Challenges' }, text: { es: 'Búsqueda full-text en MongoDB, sistema de votos sin duplicados y moderación de contenido por roles.',                  en: 'Full-text search in MongoDB, deduplication of votes and role-based content moderation.'                          }, full: false },
+      { icon: '✦', label: { es: 'Resultado',    en: 'Outcome'    }, text: { es: 'Plataforma funcional con auth, votación, moderación y soporte para regionalismos de múltiples países.',                en: 'Functional platform with auth, voting, moderation and multi-country regional support.'                           }, full: true  },
+    ],
+  },
 ]
 
 // ─────────────────────────────────────────────────────────────────
@@ -104,6 +123,7 @@ function LibraryScreen() {
         src="/screenshots/MuestraApp1.png"
         alt="Home"
         fill
+        sizes="160px"
         style={{ objectFit: 'cover' }}
       />
     </div>
@@ -117,6 +137,7 @@ function DetailScreen() {
         src="/screenshots/MuestraApp2.png"
         alt="Profile"
         fill
+        sizes="160px"
         style={{ objectFit: 'cover' }}
       />
     </div>
@@ -130,6 +151,7 @@ function ReaderScreen() {
         src="/screenshots/MuestraApp3.png"
         alt="Reader"
         fill
+        sizes="160px"
         style={{ objectFit: 'cover' }}
       />
     </div>
@@ -230,6 +252,132 @@ function PhoneShowcase({ thumbLabels }: { thumbLabels: string[] }) {
 }
 
 // ─────────────────────────────────────────────────────────────────
+// BROWSER SHOWCASE
+// ─────────────────────────────────────────────────────────────────
+const BROWSER_SCREENS = [
+  { src: '/screenshots/PaginaPrincipalDU.png', label: 'Inicio' },
+  { src: '/screenshots/BuscadorDU.png',        label: 'Buscador' },
+  { src: '/screenshots/AgregraDefinicionDU.png', label: 'Agregar' },
+]
+
+function BrowserShowcase() {
+  const [active, setActive] = useState(0)
+  const [paused, setPaused] = useState(false)
+
+  useEffect(() => {
+    if (paused) return
+    const id = setInterval(() => setActive(p => (p + 1) % BROWSER_SCREENS.length), 4000)
+    return () => clearInterval(id)
+  }, [paused])
+
+  const handleThumbClick = (i: number) => {
+    setActive(i)
+    setPaused(true)
+    setTimeout(() => setPaused(false), 6000)
+  }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: '100%', maxWidth: 420 }}>
+
+      {/* Browser frame */}
+      <div style={{
+        background: '#1A1A24',
+        borderRadius: 12,
+        border: '1.5px solid rgba(255,255,255,0.12)',
+        overflow: 'hidden',
+        boxShadow: '0 20px 60px rgba(0,0,0,0.8)',
+      }}>
+        {/* Browser bar */}
+        <div style={{
+          background: '#111118',
+          padding: '8px 12px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 8,
+          borderBottom: '1px solid rgba(255,255,255,0.06)',
+        }}>
+          {/* Traffic lights */}
+          <div style={{ display: 'flex', gap: 5 }}>
+            {['#FF5F57', '#FFBD2E', '#28CA41'].map(c => (
+              <div key={c} style={{ width: 10, height: 10, borderRadius: '50%', background: c, opacity: 0.8 }} />
+            ))}
+          </div>
+          {/* URL bar */}
+          <div style={{
+            flex: 1,
+            background: 'rgba(255,255,255,0.05)',
+            borderRadius: 5,
+            padding: '3px 10px',
+            fontSize: 10,
+            color: '#555',
+            fontFamily: "'DM Mono', monospace",
+          }}>
+            diccionario-urbano.com
+          </div>
+        </div>
+
+        {/* Screen */}
+        <div style={{ position: 'relative', aspectRatio: '16/9', overflow: 'hidden' }}>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={active}
+              initial={{ opacity: 0, x: 10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -10 }}
+              transition={{ duration: 0.3 }}
+              style={{ position: 'absolute', inset: 0 }}
+            >
+              <Image
+                src={BROWSER_SCREENS[active].src}
+                alt={BROWSER_SCREENS[active].label}
+                fill
+                sizes="420px"
+                style={{ objectFit: 'cover'}}
+              />
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
+
+      {/* Thumbnails row */}
+      <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
+        {BROWSER_SCREENS.map((screen, i) => (
+          <div key={i} style={{ textAlign: 'center' }}>
+            <div
+              onClick={() => handleThumbClick(i)}
+              style={{
+                width: 96,
+                aspectRatio: '16/9',
+                borderRadius: 6,
+                border: `1.5px solid ${active === i ? '#E8192C' : 'rgba(255,255,255,0.07)'}`,
+                cursor: 'pointer',
+                transform: active === i ? 'scale(1.06)' : 'scale(1)',
+                transition: 'all 0.2s ease',
+                overflow: 'hidden',
+                position: 'relative',
+              }}
+            >
+              <Image
+                src={screen.src}
+                alt={screen.label}
+                fill
+                sizes="96px"
+                style={{ objectFit: 'cover'}}
+              />
+            </div>
+            <p style={{ fontSize: 9, color: '#555', fontFamily: "'DM Mono', monospace", marginTop: 3, letterSpacing: '0.5px' }}>
+              {screen.label}
+            </p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  )
+}
+
+
+// ─────────────────────────────────────────────────────────────────
 // MAIN COMPONENT
 // ─────────────────────────────────────────────────────────────────
 export default function Home() {
@@ -245,13 +393,6 @@ export default function Home() {
 
   const thumbLabels = t('phone.thumbs', { returnObjects: true }) as string[]
 
-  const caseStudy = [
-    { icon: CASE_STUDY_ICONS[0], label: t('project.cs.problem'),    text: t('project.cs.problemText'),    full: false },
-    { icon: CASE_STUDY_ICONS[1], label: t('project.cs.solution'),   text: t('project.cs.solutionText'),   full: false },
-    { icon: CASE_STUDY_ICONS[2], label: t('project.cs.tech'),       text: t('project.cs.techText'),       full: false },
-    { icon: CASE_STUDY_ICONS[3], label: t('project.cs.challenges'), text: t('project.cs.challengesText'), full: false },
-    { icon: CASE_STUDY_ICONS[4], label: t('project.cs.result'),     text: t('project.cs.resultText'),     full: true  },
-  ]
 
   return (
     <>
@@ -482,13 +623,15 @@ export default function Home() {
               >
                 <div id="project-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
 
-                  {/* Left: Phone showcase */}
                   <div id="project-showcase" style={{
                     background: '#0A0A10', padding: 40,
                     display: 'flex', justifyContent: 'center', alignItems: 'center',
                     borderRight: '1px solid rgba(255,255,255,0.07)', minHeight: 460,
                   }}>
-                    <PhoneShowcase thumbLabels={thumbLabels} />
+                    {PROJECTS[activeProject].type === 'mobile'
+                      ? <PhoneShowcase thumbLabels={thumbLabels} />
+                      : <BrowserShowcase />
+                    }
                   </div>
 
                   {/* Right: Info + Case study */}
@@ -533,7 +676,7 @@ export default function Home() {
 
                     {/* Case study grid */}
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                      {caseStudy.map((item, i) => (
+                      {PROJECTS[activeProject].caseStudy.map((item, i) => (
                         <div
                           key={i}
                           style={{
@@ -548,9 +691,9 @@ export default function Home() {
                         >
                           <span style={{ fontSize: 16, display: 'block', marginBottom: 8 }}>{item.icon}</span>
                           <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 9, letterSpacing: 2, textTransform: 'uppercase', color: '#E8192C', marginBottom: 6 }}>
-                            {item.label}
+                            {item.label[lang]}
                           </div>
-                          <p style={{ fontSize: 12, color: '#555', lineHeight: 1.65 }}>{item.text}</p>
+                          <p style={{ fontSize: 12, color: '#555', lineHeight: 1.65 }}>{item.text[lang]}</p>
                         </div>
                       ))}
                     </div>
@@ -629,7 +772,7 @@ export default function Home() {
               <p style={{ fontSize: 15, color: '#555', lineHeight: 1.8, maxWidth: 480 }}>{t('about.text')}</p>
               <div id="about-stats" style={{ display: 'flex', flexDirection: 'column', gap: 12, flexShrink: 0 }}>
                 {[
-                  { num: '1',  label: t('about.stat1') },
+                  { num: '2',  label: t('about.stat1') },
                   { num: 'FS', label: t('about.stat2') },
                   { num: '📱', label: t('about.stat3') },
                 ].map(stat => (
