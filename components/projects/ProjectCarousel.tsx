@@ -76,6 +76,7 @@ export function ProjectCarousel({ projects, labels }: { projects: ProjectView[];
                 <Showcase
                   type={project.type}
                   url={project.url}
+                  emptyText={labels.screenshotsSoon}
                   screens={project.screenshots.map((src, i) => ({ src, label: project.screens[i] }))}
                 />
               </div>

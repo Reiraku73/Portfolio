@@ -1,6 +1,9 @@
 // Language-independent project data. Texts (title, description, case study,
-// screenshot labels) live in dictionaries/<lang>.json under projects.<id>,
-// in the same order as `screenshots`.
+// screenshot labels) live in dictionaries/<lang>.json under projects.<id>.
+// To add screenshots: put the files in public/screenshots/, list their paths
+// in `screenshots` and add one label per image, in the same order, to
+// projects.<id>.screens in both dictionaries. An empty list shows the frame
+// with a "screenshots coming soon" message.
 
 const EMAIL = 'mateo.orodaz4@gmail.com'
 const repoRequest = (project: string) =>
@@ -23,11 +26,7 @@ export const PROJECTS: Project[] = [
   {
     id: 'tsundoku',
     type: 'mobile',
-    screenshots: [
-      '/screenshots/MuestraApp1.png',
-      '/screenshots/MuestraApp2.png',
-      '/screenshots/MuestraApp3.png',
-    ],
+    screenshots: [],
     links: [
       { kind: 'video', href: 'https://youtu.be/MQcM05u0m4A' },
       { kind: 'apk',   href: 'https://github.com/Reiraku73/Tsundoku-app/releases/latest' },
@@ -40,11 +39,7 @@ export const PROJECTS: Project[] = [
     type: 'web',
     // Not deployed yet: no public domain to show.
     url: 'localhost:5173',
-    screenshots: [
-      '/screenshots/PaginaPrincipalDU.png',
-      '/screenshots/BuscadorDU.png',
-      '/screenshots/AgregraDefinicionDU.png',
-    ],
+    screenshots: [],
     links: [
       { kind: 'repo',  href: repoRequest('Jergario') },
       { kind: 'email', href: `mailto:${EMAIL}` },

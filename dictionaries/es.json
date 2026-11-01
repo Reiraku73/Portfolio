@@ -20,6 +20,7 @@
     "prev": "Proyecto anterior",
     "next": "Proyecto siguiente",
     "goTo": "Ir al proyecto",
+    "screenshotsSoon": "Capturas próximamente",
     "caseStudy": {
       "problem": "Problema",
       "solution": "Solución",
@@ -39,7 +40,7 @@
       "title": "Tsundoku",
       "tag": "MANGA · MANHWA · CÓMICS · ANDROID",
       "desc": "Un lector de manga para los títulos que nadie más trae, con un Studio para que los artistas indie publiquen su obra. Una app Android y una web sobre el mismo backend.",
-      "screens": ["Inicio", "Perfil", "Lector"],
+      "screens": [],
       "caseStudy": {
         "problem": "Las plataformas grandes ignoran las obras indie publicadas por sus propios artistas y el manga de nicho, y no les dan a los creadores un lugar simple para publicar.",
         "solution": "App Android con lector propio por streaming, biblioteca y lectura online/offline, más un Studio web para subir series y reordenar capítulos con drag and drop.",
@@ -52,7 +53,7 @@
       "title": "Jergario",
       "tag": "WEB · REACT · EXPRESS · MONGODB",
       "desc": "Diccionario colaborativo de jerga urbana en español, con regionalismos por país para toda Latinoamérica y España.",
-      "screens": ["Inicio", "Buscador", "Agregar"],
+      "screens": [],
       "caseStudy": {
         "problem": "La jerga cambia de país en país y no hay una plataforma en español que la registre con regionalismos y moderación comunitaria.",
         "solution": "Web donde los usuarios publican definiciones con los países donde se usan, votan, comentan y ganan reputación, con panel de moderación y estadísticas para admins.",

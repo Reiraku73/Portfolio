@@ -13,7 +13,7 @@ function useAutoRotate(count: number, interval = 4000, pauseAfterPick = 6000) {
   const resumeTimer = useRef<ReturnType<typeof setTimeout>>(undefined)
 
   useEffect(() => {
-    if (paused) return
+    if (paused || count < 2) return
     const id = setInterval(() => setActive((p) => (p + 1) % count), interval)
     return () => clearInterval(id)
   }, [paused, count, interval])
@@ -47,13 +47,22 @@ function Slide({ screen, active, sizes, dx }: { screen: Screen; active: number; 
   )
 }
 
+// Fills the frame's screen when a project has no screenshots yet.
+function Placeholder({ text }: { text: string }) {
+  return (
+    <div className="absolute inset-0 flex items-center justify-center p-4 text-center font-mono text-[10px] uppercase tracking-[1.5px] text-muted">
+      {text}
+    </div>
+  )
+}
+
 function thumbClass(selected: boolean) {
   return `relative block overflow-hidden border-[1.5px] transition-all duration-200 ${
     selected ? 'scale-106 border-accent' : 'border-line'
   }`
 }
 
-function PhoneShowcase({ screens }: { screens: Screen[] }) {
+function PhoneShowcase({ screens, emptyText }: { screens: Screen[]; emptyText: string }) {
   const [active, pick] = useAutoRotate(screens.length)
   return (
     <div className="flex items-center gap-5">
@@ -61,13 +70,15 @@ function PhoneShowcase({ screens }: { screens: Screen[] }) {
         {/* Notch */}
         <div className="absolute top-[5px] left-1/2 z-10 h-[7px] w-11 -translate-x-1/2 rounded-[10px] bg-black" />
         <div className="relative size-full overflow-hidden rounded-[22px] bg-[#0B0B14]">
-          <Slide screen={screens[active]} active={active} sizes="160px" dx={8} />
+          {screens.length > 0
+            ? <Slide screen={screens[active]} active={active} sizes="160px" dx={8} />
+            : <Placeholder text={emptyText} />}
         </div>
         {/* Side button */}
         <div className="absolute top-1/4 -right-0.5 h-7 w-0.5 rounded-sm bg-[#333]" />
       </div>
 
-      <div className="flex flex-col gap-2">
+      <div className={screens.length > 0 ? 'flex flex-col gap-2' : 'hidden'}>
         {screens.map((screen, i) => (
           <div key={screen.src}>
             <button
@@ -89,7 +100,7 @@ function PhoneShowcase({ screens }: { screens: Screen[] }) {
   )
 }
 
-function BrowserShowcase({ screens, url }: { screens: Screen[]; url?: string }) {
+function BrowserShowcase({ screens, url, emptyText }: { screens: Screen[]; url?: string; emptyText: string }) {
   const [active, pick] = useAutoRotate(screens.length)
   return (
     <div className="flex w-full max-w-[420px] flex-col gap-3">
@@ -103,11 +114,13 @@ function BrowserShowcase({ screens, url }: { screens: Screen[]; url?: string }) 
           <div className="flex-1 rounded-[5px] bg-white/5 px-2.5 py-[3px] font-mono text-[10px] text-muted">{url}</div>
         </div>
         <div className="relative aspect-video overflow-hidden">
-          <Slide screen={screens[active]} active={active} sizes="420px" dx={10} />
+          {screens.length > 0
+            ? <Slide screen={screens[active]} active={active} sizes="420px" dx={10} />
+            : <Placeholder text={emptyText} />}
         </div>
       </div>
 
-      <div className="flex justify-center gap-2">
+      <div className={screens.length > 0 ? 'flex justify-center gap-2' : 'hidden'}>
         {screens.map((screen, i) => (
           <div key={screen.src} className="text-center">
             <button
@@ -127,6 +140,18 @@ function BrowserShowcase({ screens, url }: { screens: Screen[]; url?: string }) 
   )
 }
 
-export function Showcase({ type, screens, url }: { type: 'mobile' | 'web'; screens: Screen[]; url?: string }) {
-  return type === 'mobile' ? <PhoneShowcase screens={screens} /> : <BrowserShowcase screens={screens} url={url} />
+export function Showcase({
+  type,
+  screens,
+  url,
+  emptyText,
+}: {
+  type: 'mobile' | 'web'
+  screens: Screen[]
+  url?: string
+  emptyText: string
+}) {
+  return type === 'mobile'
+    ? <PhoneShowcase screens={screens} emptyText={emptyText} />
+    : <BrowserShowcase screens={screens} url={url} emptyText={emptyText} />
 }

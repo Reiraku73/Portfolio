@@ -20,6 +20,7 @@
     "prev": "Previous project",
     "next": "Next project",
     "goTo": "Go to project",
+    "screenshotsSoon": "Screenshots coming soon",
     "caseStudy": {
       "problem": "Problem",
       "solution": "Solution",
@@ -39,7 +40,7 @@
       "title": "Tsundoku",
       "tag": "MANGA · MANHWA · COMICS · ANDROID",
       "desc": "A manga reader for the titles nobody else brings, with a Studio where indie artists publish their own work. An Android app and a website on the same backend.",
-      "screens": ["Home", "Profile", "Reader"],
+      "screens": [],
       "caseStudy": {
         "problem": "Big platforms ignore indie works published by their own artists and niche manga, and don't give creators a simple place to publish.",
         "solution": "Android app with a custom streaming reader, library and online/offline reading, plus a web Studio to upload series and reorder chapters with drag and drop.",
@@ -52,7 +53,7 @@
       "title": "Jergario",
       "tag": "WEB · REACT · EXPRESS · MONGODB",
       "desc": "A crowdsourced Spanish slang dictionary, with regional variants for every Latin American country and Spain.",
-      "screens": ["Home", "Search", "Add"],
+      "screens": [],
       "caseStudy": {
         "problem": "Slang changes from country to country, and there's no Spanish-language platform that records it with regional variants and community moderation.",
         "solution": "Website where users post definitions with the countries where they're used, vote, comment and earn reputation, with a moderation panel and admin stats.",
