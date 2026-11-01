@@ -1,26 +1,32 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-bg: #0B0B0F;
+  --color-surface: #111118;
+  --color-showcase: #0A0A10;
+  --color-ink: #F0EAE0;
+  --color-accent: #E8192C;
+  --color-dim: #888888;
+  --color-subtle: #666666;
+  --color-muted: #555555;
+  --color-line: rgb(255 255 255 / 0.07);
 }
 
+/* Font variables come from next/font in app/[lang]/layout.tsx */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-dm-sans), sans-serif;
+  --font-mono: var(--font-dm-mono), monospace;
+  --font-display: var(--font-anton), sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-ink);
 }
+
+body::-webkit-scrollbar { width: 3px; }
+body::-webkit-scrollbar-thumb { background: rgba(232, 25, 44, 0.2); border-radius: 2px; }

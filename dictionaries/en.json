@@ -1,0 +1,85 @@
+{
+  "meta": {
+    "title": "Mateo Orodaz — Portfolio",
+    "description": "Junior full stack developer focused on mobile apps. Projects: Tsundoku (manga reader) and Jergario (Spanish slang dictionary)."
+  },
+  "nav": {
+    "projects": "Projects",
+    "stack": "Stack",
+    "about": "About me",
+    "contact": "Contact",
+    "language": "Language"
+  },
+  "hero": {
+    "eyebrow": "Full Stack Developer",
+    "role": "focused on mobile apps",
+    "desc": "I build complete applications end to end: design, frontend, backend, database and security. I'm currently building Tsundoku, a manga reader with a Studio for indie artists, and Jergario, a crowdsourced Spanish slang dictionary.",
+    "btn": "See projects"
+  },
+  "projectsSection": {
+    "prev": "Previous project",
+    "next": "Next project",
+    "goTo": "Go to project",
+    "caseStudy": {
+      "problem": "Problem",
+      "solution": "Solution",
+      "stack": "Tech stack",
+      "challenges": "Challenges",
+      "status": "Status"
+    },
+    "links": {
+      "video": "▶ Video",
+      "apk": "↓ Demo APK",
+      "repo": "⌥ Repo (private)",
+      "email": "✉ Email"
+    }
+  },
+  "projects": {
+    "tsundoku": {
+      "title": "Tsundoku",
+      "tag": "MANGA · MANHWA · COMICS · ANDROID",
+      "desc": "A manga reader for the titles nobody else brings, with a Studio where indie artists publish their own work. An Android app and a website on the same backend.",
+      "screens": ["Home", "Profile", "Reader"],
+      "caseStudy": {
+        "problem": "Big platforms ignore indie works published by their own artists and niche manga, and don't give creators a simple place to publish.",
+        "solution": "Android app with a custom streaming reader, library and online/offline reading, plus a web Studio to upload series and reorder chapters with drag and drop.",
+        "stack": "Expo SDK 58 and React Native 0.88 (New Architecture), Zustand, React + Vite on the web. Supabase/PostgreSQL with RLS on every table.",
+        "challenges": "Database security audit that closed a privilege escalation and exposed premium content. Page-by-page CBZ reader without atob() on Hermes. Seven Expo SDK upgrades in two days.",
+        "status": "In development (phase 5 of 6). Working v0.4.3 Android demo; public sign-up closed until launch. UI in English, Spanish, Japanese and Korean."
+      }
+    },
+    "jergario": {
+      "title": "Jergario",
+      "tag": "WEB · REACT · EXPRESS · MONGODB",
+      "desc": "A crowdsourced Spanish slang dictionary, with regional variants for every Latin American country and Spain.",
+      "screens": ["Home", "Search", "Add"],
+      "caseStudy": {
+        "problem": "Slang changes from country to country, and there's no Spanish-language platform that records it with regional variants and community moderation.",
+        "solution": "Website where users post definitions with the countries where they're used, vote, comment and earn reputation, with a moderation panel and admin stats.",
+        "stack": "React 19 + Vite and Tailwind on the frontend. Node.js with Express 5 and MongoDB Atlas with Mongoose. JWT + Google OAuth and email via Resend.",
+        "challenges": "Race-free voting with unique indexes and atomic operations. Search that ignores accents but keeps the ñ. Automatic links between words with Unicode regex. Security review with 19 fixes.",
+        "status": "In development, pre-launch. 196 automated API tests, all passing. Next: own domain, deployment and a mobile app on the same API."
+      }
+    }
+  },
+  "stack": {
+    "title": "Technologies"
+  },
+  "about": {
+    "title": "About me",
+    "text": "I'm a junior full stack developer focused on mobile. I like building complete, real products: I think through the user experience, build the backend and take care of security and testing. I learn by building concrete things.",
+    "stats": [
+      { "value": "2", "label": "Full stack projects in development" },
+      { "value": "FS", "label": "Full Stack Junior Dev" },
+      { "value": "📱", "label": "Mobile First" }
+    ]
+  },
+  "contact": {
+    "title": "Let's talk.",
+    "sub": "Open to opportunities and collaborations.",
+    "email": "Send email"
+  },
+  "footer": {
+    "builtWith": "Built with Next.js"
+  }
+}
