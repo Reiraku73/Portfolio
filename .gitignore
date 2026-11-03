@@ -10,8 +10,8 @@
 !.yarn/releases
 !.yarn/versions
 
-#docs
-/docs
+# project briefs with personal notes, kept only on the author's machine
+/docs/portfolio_*.md
 
 # testing
 /coverage
@@ -25,16 +25,19 @@
 
 # misc
 .DS_Store
+Thumbs.db
 *.pem
 
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
+# editor and local settings
+.vscode/
+.claude/settings.local.json
 
-# env files (can opt-in for committing if needed)
+# debug
+*.log
+
+# env files (secrets never go in git)
 .env*
+!.env.example
 
 # vercel
 .vercel
