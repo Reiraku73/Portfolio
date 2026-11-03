@@ -46,7 +46,7 @@
         "solution": "Android app with a custom streaming reader, library and online/offline reading, plus a web Studio to upload series and reorder chapters with drag and drop.",
         "stack": "Expo SDK 58 and React Native 0.88 (New Architecture), Zustand, React + Vite on the web. Supabase/PostgreSQL with RLS on every table.",
         "challenges": "Database security audit that closed a privilege escalation and exposed premium content. Page-by-page CBZ reader without atob() on Hermes. Seven Expo SDK upgrades in two days.",
-        "status": "In development (phase 5 of 6). Working v0.4.3 Android demo; public sign-up closed until launch. UI in English, Spanish, Japanese and Korean."
+        "status": "In development (phase 5 of 6). Working v0.4.2 Android demo; public sign-up closed until launch. UI in English, Spanish, Japanese and Korean."
       }
     },
     "jergario": {
