@@ -56,6 +56,8 @@ Reestructurado con las rutas `/es` y `/en` y la detección de idioma (2026-11-01
 
 ## Índice
 
+> **Lo compartido entre proyectos** (cuentas, plata, dominios y mail) está en `../Ops/docs/` (ver su `contexto.md`). Si una tarea necesita esos datos, se leen ahí.
+
 | Archivo | Qué tiene |
 | --- | --- |
 | `docs/decisiones.md` | Decisiones importantes del portfolio, con su porqué y las alternativas descartadas |
