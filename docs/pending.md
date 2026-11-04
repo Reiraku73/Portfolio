@@ -13,7 +13,7 @@
 ## Claude con Mateo
 
 ### 2. Dominio propio
-- [ ] Comprar `mateoorodaz.dev` en Cloudflare Registrar (decidido el 2026-11-03), agregarlo como dominio propio en Vercel (Hobby lo permite gratis) y apuntar el DNS desde Cloudflare. Después, agregar `metadataBase` en `app/[lang]/layout.tsx`, para que el canonical y los `hreflang` sean URLs absolutas (ver `docs/decisiones.md`).
+- [ ] Comprar `mateoorodaz.dev` en Cloudflare Registrar (decidido el 2026-11-03), agregarlo como dominio propio en Vercel (Hobby lo permite gratis) y apuntar el DNS desde Cloudflare. Después, agregar `metadataBase` en `app/[lang]/layout.tsx`, para que el canonical y los `hreflang` sean URLs absolutas (ver `docs/decisiones.md`). Este dominio es también el principal del Google Workspace de todos los proyectos (2026-11-03, ver `Jergario/docs/email.md`): en el DNS de Cloudflare conviven los registros de Vercel con los MX, SPF y DKIM de Google.
 
 ### 3. README del repo
 - [ ] El `README.md` está vacío. Escribir uno corto: qué es, el stack y cómo correrlo.
