@@ -2,8 +2,14 @@
 
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import type { Project, ProjectId } from '@/data/projects'
+import type { IconType } from 'react-icons'
+import {
+  MdAndroid, MdArrowBack, MdArrowForward, MdBolt, MdErrorOutline, MdLayers,
+  MdLightbulbOutline, MdLockOutline, MdMailOutline, MdPlayCircleOutline, MdTimeline,
+} from 'react-icons/md'
+import type { LinkKind, Project, ProjectId } from '@/data/projects'
 import type { Dictionary } from '@/lib/i18n/dictionaries'
+import { orderedPlatforms } from '@/lib/projects'
 import { EASE, FadeUp } from '../ui/FadeUp'
 import { H2 } from '../ui/Section'
 import { Showcase } from './Showcase'
@@ -12,13 +18,21 @@ import { Showcase } from './Showcase'
 export type ProjectView = Project & Dictionary['projects'][ProjectId]
 type Labels = Dictionary['projectsSection']
 
+// Material Icons, the same set Tsundoku uses.
 const CASE_STUDY = [
-  { key: 'problem',    icon: '◎' },
-  { key: 'solution',   icon: '◈' },
-  { key: 'stack',      icon: '⬡' },
-  { key: 'challenges', icon: '⚡' },
-  { key: 'status',     icon: '✦', full: true },
+  { key: 'problem',    Icon: MdErrorOutline },
+  { key: 'solution',   Icon: MdLightbulbOutline },
+  { key: 'stack',      Icon: MdLayers },
+  { key: 'challenges', Icon: MdBolt },
+  { key: 'status',     Icon: MdTimeline, full: true },
 ] as const
+
+const LINK_ICONS: Record<LinkKind, IconType> = {
+  video: MdPlayCircleOutline,
+  apk:   MdAndroid,
+  repo:  MdLockOutline,
+  email: MdMailOutline,
+}
 
 // First link is the highlight, second is secondary, the rest are muted.
 const LINK_STYLES = [
@@ -44,9 +58,9 @@ export function ProjectCarousel({ projects, labels }: { projects: ProjectView[];
               {pad(active + 1)} / {pad(projects.length)}
             </span>
             {[
-              { dir: -1, symbol: '←', label: labels.prev },
-              { dir: 1, symbol: '→', label: labels.next },
-            ].map(({ dir, symbol, label }) => (
+              { dir: -1, Icon: MdArrowBack, label: labels.prev },
+              { dir: 1, Icon: MdArrowForward, label: labels.next },
+            ].map(({ dir, Icon, label }) => (
               <button
                 key={dir}
                 type="button"
@@ -54,7 +68,7 @@ export function ProjectCarousel({ projects, labels }: { projects: ProjectView[];
                 onClick={() => go(dir)}
                 className="flex size-9 items-center justify-center rounded-md border border-white/10 text-sm text-ink transition-all hover:border-accent hover:text-accent"
               >
-                {symbol}
+                <Icon aria-hidden />
               </button>
             ))}
           </div>
@@ -74,10 +88,17 @@ export function ProjectCarousel({ projects, labels }: { projects: ProjectView[];
             <div className="grid md:grid-cols-2">
               <div className="flex items-center justify-center border-b border-line bg-showcase px-5 py-8 md:min-h-[460px] md:border-r md:border-b-0 md:p-10">
                 <Showcase
-                  type={project.type}
-                  url={project.url}
                   emptyText={labels.screenshotsSoon}
-                  screens={project.screenshots.map((src, i) => ({ src, label: project.screens[i] }))}
+                  views={orderedPlatforms(project).map((platform) => {
+                    const info = project.platforms[platform]!
+                    return {
+                      platform,
+                      label: labels.platforms[platform],
+                      statusLabel: labels.status[info.status],
+                      url: info.url,
+                      screens: info.screenshots.map((src, i) => ({ src, label: project.screens[platform][i] })),
+                    }
+                  })}
                 />
               </div>
 
@@ -95,6 +116,7 @@ export function ProjectCarousel({ projects, labels }: { projects: ProjectView[];
                       rel="noreferrer"
                       className={`inline-flex items-center gap-1.5 rounded-[5px] border px-4 py-2 font-mono text-xs transition-all hover:border-white/20 hover:text-ink ${LINK_STYLES[Math.min(i, LINK_STYLES.length - 1)]}`}
                     >
+                      {(() => { const Icon = LINK_ICONS[link.kind]; return <Icon aria-hidden className="text-sm" /> })()}
                       {labels.links[link.kind]}
                     </a>
                   ))}
@@ -108,7 +130,7 @@ export function ProjectCarousel({ projects, labels }: { projects: ProjectView[];
                         'full' in item ? 'sm:col-span-2' : ''
                       }`}
                     >
-                      <span className="mb-2 block text-base">{item.icon}</span>
+                      <item.Icon aria-hidden className="mb-2 block text-lg text-accent" />
                       <div className="mb-1.5 font-mono text-[9px] uppercase tracking-[2px] text-accent">
                         {labels.caseStudy[item.key]}
                       </div>

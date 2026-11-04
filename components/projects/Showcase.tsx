@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import Image from 'next/image'
+import type { Platform } from '@/data/projects'
 
 type Screen = { src: string; label: string }
 
@@ -140,18 +141,46 @@ function BrowserShowcase({ screens, url, emptyText }: { screens: Screen[]; url?:
   )
 }
 
-export function Showcase({
-  type,
-  screens,
-  url,
-  emptyText,
-}: {
-  type: 'mobile' | 'web'
-  screens: Screen[]
+// One platform of a project, ready to render: its frame type, texts and screens.
+export type PlatformView = {
+  platform: Platform
+  label: string
+  statusLabel: string
   url?: string
-  emptyText: string
-}) {
-  return type === 'mobile'
-    ? <PhoneShowcase screens={screens} emptyText={emptyText} />
-    : <BrowserShowcase screens={screens} url={url} emptyText={emptyText} />
+  screens: Screen[]
+}
+
+function PlatformFrame({ view, emptyText }: { view: PlatformView; emptyText: string }) {
+  return view.platform === 'mobile'
+    ? <PhoneShowcase screens={view.screens} emptyText={emptyText} />
+    : <BrowserShowcase screens={view.screens} url={view.url} emptyText={emptyText} />
+}
+
+// A tab per platform ("Web · In development", "App · Planned"), primary first.
+// The carousel remounts this per project, so the tab resets on every change.
+export function Showcase({ views, emptyText }: { views: PlatformView[]; emptyText: string }) {
+  const [active, setActive] = useState(0)
+  const view = views[active]
+
+  return (
+    <div className="flex w-full flex-col items-center gap-5">
+      <div role="tablist" className="flex flex-wrap justify-center gap-2">
+        {views.map((v, i) => (
+          <button
+            key={v.platform}
+            type="button"
+            role="tab"
+            aria-selected={i === active}
+            onClick={() => setActive(i)}
+            className={`rounded-[5px] border px-3 py-1.5 font-mono text-[10px] uppercase tracking-[1.5px] transition-all ${
+              i === active ? 'border-accent/50 text-accent' : 'border-line text-muted hover:border-white/20 hover:text-ink'
+            }`}
+          >
+            {v.label} · {v.statusLabel}
+          </button>
+        ))}
+      </div>
+      <PlatformFrame key={view.platform} view={view} emptyText={emptyText} />
+    </div>
+  )
 }

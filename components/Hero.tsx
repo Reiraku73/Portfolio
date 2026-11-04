@@ -1,3 +1,4 @@
+import { MdArrowDownward, MdArrowForward } from 'react-icons/md'
 import { CONTACT } from '@/data/projects'
 import { HERO_CHIPS } from '@/data/stack'
 import type { Dictionary } from '@/lib/i18n/dictionaries'
@@ -51,10 +52,10 @@ export function Hero({ dict }: { dict: Dictionary['hero'] }) {
         <FadeUp delay={0.5} y={20}>
           <div className="flex flex-wrap gap-3">
             <a href="#projects" className={`${BTN_PRIMARY} px-6 py-3 text-[13px]`}>
-              {dict.btn} ↓
+              {dict.btn} <MdArrowDownward aria-hidden />
             </a>
             <a href={CONTACT.github} target="_blank" rel="noreferrer" className={`${BTN_GHOST} px-6 py-3 text-[13px]`}>
-              GitHub →
+              GitHub <MdArrowForward aria-hidden />
             </a>
           </div>
         </FadeUp>

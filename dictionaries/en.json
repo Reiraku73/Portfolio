@@ -29,18 +29,47 @@
       "status": "Status"
     },
     "links": {
-      "video": "▶ Video",
-      "apk": "↓ Demo APK",
-      "repo": "⌥ Repo (private)",
-      "email": "✉ Email"
+      "video": "Video",
+      "apk": "Demo APK",
+      "repo": "Repo (private)",
+      "email": "Email"
+    },
+    "platforms": {
+      "web": "Web",
+      "mobile": "App"
+    },
+    "status": {
+      "live": "Live",
+      "demo": "Demo",
+      "dev": "In development",
+      "planned": "Planned"
     }
   },
   "projects": {
+    "jergario": {
+      "title": "Jergario",
+      "tag": "WEB · REACT · EXPRESS · MONGODB",
+      "desc": "A crowdsourced Spanish slang dictionary, with regional variants for every Latin American country and Spain.",
+      "screens": {
+        "web": [],
+        "mobile": []
+      },
+      "caseStudy": {
+        "problem": "Slang changes from country to country, and there's no Spanish-language platform that records it with regional variants and community moderation.",
+        "solution": "Website where users post definitions with the countries where they're used, vote, comment and earn reputation, with a moderation panel and admin stats.",
+        "stack": "React 19 + Vite and Tailwind on the frontend. Node.js with Express 5 and MongoDB Atlas with Mongoose. JWT + Google OAuth and email via Resend.",
+        "challenges": "Race-free voting with unique indexes and atomic operations. Search that ignores accents but keeps the ñ. Automatic links between words with Unicode regex. Security review with 19 fixes.",
+        "status": "In development, pre-launch: phases 1 to 3 done and the database redesign finished. 572 automated API tests, all passing. Next: own domain and deployment; the mobile app, on the same API, comes after the web."
+      }
+    },
     "tsundoku": {
       "title": "Tsundoku",
       "tag": "MANGA · MANHWA · COMICS · ANDROID",
       "desc": "A manga reader for the titles nobody else brings, with a Studio where indie artists publish their own work. An Android app and a website on the same backend.",
-      "screens": [],
+      "screens": {
+        "web": [],
+        "mobile": []
+      },
       "caseStudy": {
         "problem": "Big platforms ignore indie works published by their own artists and niche manga, and don't give creators a simple place to publish.",
         "solution": "Android app with a custom streaming reader, library and online/offline reading, plus a web Studio to upload series and reorder chapters with drag and drop.",
@@ -49,17 +78,20 @@
         "status": "In development (phase 5 of 6). Working v0.4.2 Android demo; public sign-up closed until launch. UI in English, Spanish, Japanese and Korean."
       }
     },
-    "jergario": {
-      "title": "Jergario",
-      "tag": "WEB · REACT · EXPRESS · MONGODB",
-      "desc": "A crowdsourced Spanish slang dictionary, with regional variants for every Latin American country and Spain.",
-      "screens": [],
+    "tsundenki": {
+      "title": "Tsundenki",
+      "tag": "MARKETPLACE · RETRO ELECTRONICS · WEB + APP",
+      "desc": "A marketplace to buy and sell broken or used electronics by parts, and to connect people who have a broken device with technicians who can fix it. It starts with retro consoles and handhelds.",
+      "screens": {
+        "web": [],
+        "mobile": []
+      },
       "caseStudy": {
-        "problem": "Slang changes from country to country, and there's no Spanish-language platform that records it with regional variants and community moderation.",
-        "solution": "Website where users post definitions with the countries where they're used, vote, comment and earn reputation, with a moderation panel and admin stats.",
-        "stack": "React 19 + Vite and Tailwind on the frontend. Node.js with Express 5 and MongoDB Atlas with Mongoose. JWT + Google OAuth and email via Resend.",
-        "challenges": "Race-free voting with unique indexes and atomic operations. Search that ignores accents but keeps the ñ. Automatic links between words with Unicode regex. Security review with 19 fixes.",
-        "status": "In development, pre-launch. 196 automated API tests, all passing. Next: own domain, deployment and a mobile app on the same API."
+        "problem": "Someone with a broken console can't tell which parts are useful to others, and someone looking for a part can't search by part: listings are free text and don't say what works and what doesn't.",
+        "solution": "Structured listings: the user picks the model from the catalog, the site breaks it down into its parts and marks the state of each one (working, broken or untested). That makes searches like \"working GBA SP screen\" possible. Web first; then an iOS and Android app on the same API.",
+        "stack": "TypeScript end to end. React 19 + Vite and Tailwind v4 on the web; Node 24 + Express 5 and MongoDB Atlas with Mongoose on the backend. Planned: Socket.io for chat, Cloudinary for photos, Mercado Pago, and Expo for the app.",
+        "challenges": "A data model where each catalog model carries its list of parts and each listing copies that list with the state of each part. An API designed from day one for two clients, the web and the app. Frutiger Aero design on a modern base, with a palette taken from retro electronics.",
+        "status": "In development (phase 0: setup). The web and backend skeleton is ready; the device catalog comes next."
       }
     }
   },
@@ -70,9 +102,18 @@
     "title": "About me",
     "text": "I'm a junior full stack developer focused on mobile. I like building complete, real products: I think through the user experience, build the backend and take care of security and testing. I learn by building concrete things.",
     "stats": [
-      { "value": "2", "label": "Full stack projects in development" },
-      { "value": "FS", "label": "Full Stack Junior Dev" },
-      { "value": "📱", "label": "Mobile First" }
+      {
+        "value": "2",
+        "label": "Full stack projects in development"
+      },
+      {
+        "value": "FS",
+        "label": "Full Stack Junior Dev"
+      },
+      {
+        "icon": "smartphone",
+        "label": "Mobile First"
+      }
     ]
   },
   "contact": {

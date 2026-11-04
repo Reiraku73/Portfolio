@@ -29,18 +29,47 @@
       "status": "Estado"
     },
     "links": {
-      "video": "▶ Video",
-      "apk": "↓ Demo APK",
-      "repo": "⌥ Repo (privado)",
-      "email": "✉ Email"
+      "video": "Video",
+      "apk": "Demo APK",
+      "repo": "Repo (privado)",
+      "email": "Email"
+    },
+    "platforms": {
+      "web": "Web",
+      "mobile": "App"
+    },
+    "status": {
+      "live": "Publicada",
+      "demo": "Demo",
+      "dev": "En desarrollo",
+      "planned": "Planeada"
     }
   },
   "projects": {
+    "jergario": {
+      "title": "Jergario",
+      "tag": "WEB · REACT · EXPRESS · MONGODB",
+      "desc": "Diccionario colaborativo de jerga urbana en español, con regionalismos por país para toda Latinoamérica y España.",
+      "screens": {
+        "web": [],
+        "mobile": []
+      },
+      "caseStudy": {
+        "problem": "La jerga cambia de país en país y no hay una plataforma en español que la registre con regionalismos y moderación comunitaria.",
+        "solution": "Web donde los usuarios publican definiciones con los países donde se usan, votan, comentan y ganan reputación, con panel de moderación y estadísticas para admins.",
+        "stack": "React 19 + Vite y Tailwind en el frontend. Node.js con Express 5 y MongoDB Atlas con Mongoose. JWT + Google OAuth y emails con Resend.",
+        "challenges": "Votos sin race conditions con índices únicos y operaciones atómicas. Búsqueda que ignora tildes pero conserva la ñ. Links automáticos entre palabras con regex Unicode. Revisión de seguridad con 19 arreglos.",
+        "status": "En desarrollo, antes del lanzamiento: fases 1 a 3 completas y rediseño de la base de datos terminado. 572 pruebas automatizadas de la API, todas pasando. Próximo: dominio propio y deploy; la app mobile, con la misma API, viene después de la web."
+      }
+    },
     "tsundoku": {
       "title": "Tsundoku",
       "tag": "MANGA · MANHWA · CÓMICS · ANDROID",
       "desc": "Un lector de manga para los títulos que nadie más trae, con un Studio para que los artistas indie publiquen su obra. Una app Android y una web sobre el mismo backend.",
-      "screens": [],
+      "screens": {
+        "web": [],
+        "mobile": []
+      },
       "caseStudy": {
         "problem": "Las plataformas grandes ignoran las obras indie publicadas por sus propios artistas y el manga de nicho, y no les dan a los creadores un lugar simple para publicar.",
         "solution": "App Android con lector propio por streaming, biblioteca y lectura online/offline, más un Studio web para subir series y reordenar capítulos con drag and drop.",
@@ -49,17 +78,20 @@
         "status": "En desarrollo (fase 5 de 6). Demo funcional v0.4.2 para Android; registro público cerrado hasta el lanzamiento. Interfaz en inglés, español, japonés y coreano."
       }
     },
-    "jergario": {
-      "title": "Jergario",
-      "tag": "WEB · REACT · EXPRESS · MONGODB",
-      "desc": "Diccionario colaborativo de jerga urbana en español, con regionalismos por país para toda Latinoamérica y España.",
-      "screens": [],
+    "tsundenki": {
+      "title": "Tsundenki",
+      "tag": "MARKETPLACE · ELECTRÓNICA RETRO · WEB + APP",
+      "desc": "Marketplace para comprar y vender electrónica rota o usada por partes, y para conectar a quien tiene un equipo roto con técnicos que lo reparen. Arranca con consolas y portátiles retro.",
+      "screens": {
+        "web": [],
+        "mobile": []
+      },
       "caseStudy": {
-        "problem": "La jerga cambia de país en país y no hay una plataforma en español que la registre con regionalismos y moderación comunitaria.",
-        "solution": "Web donde los usuarios publican definiciones con los países donde se usan, votan, comentan y ganan reputación, con panel de moderación y estadísticas para admins.",
-        "stack": "React 19 + Vite y Tailwind en el frontend. Node.js con Express 5 y MongoDB Atlas con Mongoose. JWT + Google OAuth y emails con Resend.",
-        "challenges": "Votos sin race conditions con índices únicos y operaciones atómicas. Búsqueda que ignora tildes pero conserva la ñ. Links automáticos entre palabras con regex Unicode. Revisión de seguridad con 19 arreglos.",
-        "status": "En desarrollo, antes del lanzamiento. 196 pruebas automatizadas de la API, todas pasando. Próximo: dominio propio, deploy y app mobile con la misma API."
+        "problem": "Quien tiene una consola rota no sabe qué piezas le sirven a otro, y quien busca una pieza no puede buscar por pieza: las publicaciones son texto libre y no dicen qué funciona y qué no.",
+        "solution": "Publicación estructurada: el usuario elige el modelo del catálogo, la web le desglosa sus piezas y marca el estado de cada una (funciona, no funciona o sin probar). Eso habilita buscar \"pantalla de GBA SP que funcione\". Primero la web; después, la app para iOS y Android con la misma API.",
+        "stack": "TypeScript de punta a punta. React 19 + Vite y Tailwind v4 en la web; Node 24 + Express 5 y MongoDB Atlas con Mongoose en el backend. Planeado: Socket.io para el chat, Cloudinary para las fotos, Mercado Pago, y Expo para la app.",
+        "challenges": "Un modelo de datos donde cada modelo del catálogo trae su lista de piezas y cada publicación copia esa lista con el estado de cada una. Una API pensada desde el principio para dos clientes, la web y la app. Diseño Frutiger Aero sobre una base moderna, con una paleta tomada de la electrónica retro.",
+        "status": "En desarrollo (fase 0: setup). El esqueleto de la web y el backend está listo; sigue el catálogo de dispositivos."
       }
     }
   },
@@ -70,9 +102,18 @@
     "title": "Sobre mí",
     "text": "Soy desarrollador full stack junior con foco en mobile. Me interesa construir productos reales completos: pienso la experiencia de usuario, armo el backend y me ocupo de la seguridad y las pruebas. Aprendo construyendo cosas concretas.",
     "stats": [
-      { "value": "2", "label": "Proyectos full stack en desarrollo" },
-      { "value": "FS", "label": "Full Stack Dev Junior" },
-      { "value": "📱", "label": "Mobile First" }
+      {
+        "value": "2",
+        "label": "Proyectos full stack en desarrollo"
+      },
+      {
+        "value": "FS",
+        "label": "Full Stack Dev Junior"
+      },
+      {
+        "icon": "smartphone",
+        "label": "Mobile First"
+      }
     ]
   },
   "contact": {
