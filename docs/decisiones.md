@@ -42,6 +42,7 @@ Registro de decisiones importantes del portfolio: qué se decidió, por qué y q
 ### Decisión
 - **`app/[lang]/error.tsx`:** si una página falla al renderizar, se ve "Algo salió mal" con **Reintentar** e **Ir al inicio**, en el idioma de la URL, en vez de la pantalla de Next. En Next 16 el botón usa `unstable_retry` (antes era `reset`).
 - **`app/global-not-found.tsx`** (con `experimental.globalNotFound` en `next.config.ts`): el 404 para cualquier URL que no existe (`/es/lo-que-sea`; `/fr` redirige a `/es/fr`). Muestra el texto en español y en inglés, con un link a cada idioma.
+- **`app/global-error.tsx`:** la misma pantalla para un error en `app/[lang]/layout.tsx`, que `error.tsx` no ataja porque está dentro de ese layout. Reemplaza al layout, así que trae su `<html>`, estilos y fuentes; como es client component, el título va en un `<title>` en vez de `metadata`.
 - **Textos aparte:** `dictionaries/client/{es,en}.json`, con su tipo en `lib/i18n/clientDictionaries.ts` (si `en` no coincide con `es`, falla el build).
 - **Fuentes compartidas** en `app/fonts.ts`, porque el 404 no pasa por el layout y tiene que cargarlas solo.
 
