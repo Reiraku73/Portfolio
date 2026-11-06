@@ -1,0 +1,14 @@
+{
+  "error": {
+    "label": "Error",
+    "title": "Algo salió mal",
+    "text": "No se pudo mostrar esta página. Probá de nuevo en un momento.",
+    "retry": "Reintentar",
+    "home": "Ir al inicio"
+  },
+  "notFound": {
+    "title": "Página no encontrada",
+    "text": "La página que buscás no existe o cambió de lugar.",
+    "home": "Ir al inicio"
+  }
+}

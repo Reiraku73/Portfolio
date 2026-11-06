@@ -34,3 +34,22 @@ Registro de decisiones importantes del portfolio: qué se decidió, por qué y q
 - El sitio necesita un servidor para correr el proxy, así que **no puede ser una exportación estática**. Se publica en **Vercel**, que además manda el país en el header `x-vercel-ip-country`. También se lee `cf-ipcountry` por si algún día se pasa a Cloudflare.
 - Para agregar un idioma: sumarlo a `locales` en `lib/i18n/config.ts`, crear su JSON en `dictionaries/` y registrarlo en `lib/i18n/dictionaries.ts`.
 - Pendiente: cuando haya dominio, agregar `metadataBase` en `app/[lang]/layout.tsx` para que el canonical y los `hreflang` sean URLs absolutas.
+
+---
+
+## 2026-11-06 — Pantallas de error y 404
+
+### Decisión
+- **`app/[lang]/error.tsx`:** si una página falla al renderizar, se ve "Algo salió mal" con **Reintentar** e **Ir al inicio**, en el idioma de la URL, en vez de la pantalla de Next. En Next 16 el botón usa `unstable_retry` (antes era `reset`).
+- **`app/global-not-found.tsx`** (con `experimental.globalNotFound` en `next.config.ts`): el 404 para cualquier URL que no existe (`/es/lo-que-sea`; `/fr` redirige a `/es/fr`). Muestra el texto en español y en inglés, con un link a cada idioma.
+- **Textos aparte:** `dictionaries/client/{es,en}.json`, con su tipo en `lib/i18n/clientDictionaries.ts` (si `en` no coincide con `es`, falla el build).
+- **Fuentes compartidas** en `app/fonts.ts`, porque el 404 no pasa por el layout y tiene que cargarlas solo.
+
+### Por qué
+- **`global-not-found` en vez de `not-found.tsx`:** el layout raíz está en `app/[lang]/`. Una URL que no coincide con ninguna ruta no tiene layout donde mostrar un `not-found.tsx`, y Next mostraba su 404 por defecto. La documentación de Next 16 recomienda `global-not-found` justo para un layout raíz con un segmento dinámico. Es experimental: si cambia, es un solo archivo.
+- **El 404 en los dos idiomas:** no pasa por el proxy con idioma ni por el layout, así que no sabe en qué idioma está quien visita. Detectarlo lo volvería dinámico para una página que casi nadie ve.
+- **Diccionarios chicos para el cliente:** la pantalla de error es un client component y no recibe props. Importar `es.json`/`en.json` mandaría todos los textos al navegador, lo que la decisión del 2026-11-01 evitó a propósito.
+
+### Alternativas descartadas
+- **Dejar el 404 por defecto de Next:** en inglés, con otro estilo y sin link al sitio.
+- **Pasar los textos por un context desde el layout:** más código para tres frases.

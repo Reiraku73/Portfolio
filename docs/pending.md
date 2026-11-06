@@ -15,8 +15,3 @@
 ### 2. Dominio propio
 - [ ] Comprar `mateoorodaz.dev` en Cloudflare Registrar (decidido el 2026-11-03), agregarlo como dominio propio en Vercel (Hobby lo permite gratis) y apuntar el DNS desde Cloudflare. Después, agregar `metadataBase` en `app/[lang]/layout.tsx`, para que el canonical y los `hreflang` sean URLs absolutas (ver `docs/decisiones.md`). Este dominio es también el principal del Google Workspace compartido: en el DNS de Cloudflare conviven los registros de Vercel con los de Google (ver `../Ops/docs/dominios.md`).
 
-### 3. README del repo
-- [ ] El `README.md` está vacío. Escribir uno corto: qué es, el stack y cómo correrlo.
-
-### 4. Manejo de errores
-- [ ] Regla general (2026-11-06): revisar que haya `error.tsx` y `not-found.tsx` propios en `app/[lang]/`, con los textos en ES/EN (antes, leer `node_modules/next/dist/docs/`: Next 16 puede diferir).

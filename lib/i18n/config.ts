@@ -11,3 +11,8 @@ export const LOCALE_COOKIE = 'NEXT_LOCALE'
 
 export const hasLocale = (value: string): value is Locale =>
   (locales as readonly string[]).includes(value)
+
+// For places that can't reject an unknown language, like the error screen:
+// anything that isn't a supported locale falls back to the default one.
+export const toLocale = (value: unknown): Locale =>
+  typeof value === 'string' && hasLocale(value) ? value : defaultLocale

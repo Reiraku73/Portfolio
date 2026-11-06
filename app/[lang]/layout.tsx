@@ -1,13 +1,9 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { Anton, DM_Mono, DM_Sans } from 'next/font/google'
 import { hasLocale, locales } from '@/lib/i18n/config'
 import { getDictionary } from '@/lib/i18n/dictionaries'
+import { fontVariables } from '../fonts'
 import '../globals.css'
-
-const anton = Anton({ weight: '400', subsets: ['latin'], variable: '--font-anton' })
-const dmSans = DM_Sans({ subsets: ['latin'], variable: '--font-dm-sans' })
-const dmMono = DM_Mono({ weight: ['400', '500'], subsets: ['latin'], variable: '--font-dm-mono' })
 
 // Both languages are prerendered at build time; any other /[lang] is a 404.
 export const dynamicParams = false
@@ -36,7 +32,7 @@ export default async function RootLayout({ children, params }: LayoutProps<'/[la
   if (!hasLocale(lang)) notFound()
 
   return (
-    <html lang={lang} className={`${anton.variable} ${dmSans.variable} ${dmMono.variable} antialiased`}>
+    <html lang={lang} className={`${fontVariables} antialiased`}>
       <body className="min-h-full font-sans">{children}</body>
     </html>
   )
