@@ -22,11 +22,13 @@ export default function GlobalNotFound() {
       <body className="min-h-full font-sans">
         <main className="flex min-h-screen flex-col items-center justify-center gap-10 bg-bg px-5 py-15 text-center text-ink">
           <h1 className="font-display text-[clamp(80px,14vw,160px)] leading-none text-accent">404</h1>
-          <div className="flex flex-col gap-10 md:flex-row md:gap-16">
+          {/* Both languages share the same three rows (title, text, button) via
+              subgrid, so they stay aligned even when one title wraps. */}
+          <div className="flex flex-col gap-10 md:grid md:grid-cols-2 md:grid-rows-[auto_auto_auto] md:gap-x-16 md:gap-y-3">
             {locales.map((locale) => {
               const dict = clientDictionaries[locale].notFound
               return (
-                <section key={locale} lang={locale} className="flex max-w-xs flex-col items-center gap-3">
+                <section key={locale} lang={locale} className="flex max-w-xs flex-col items-center gap-3 md:row-span-3 md:grid md:grid-rows-subgrid md:justify-items-center">
                   <h2 className="font-display text-[clamp(28px,4vw,40px)] leading-none">{dict.title}</h2>
                   <p className="text-[15px] text-dim">{dict.text}</p>
                   <Link href={`/${locale}`} className={`${BTN_GHOST} mt-2 px-6 py-3 text-sm`}>
