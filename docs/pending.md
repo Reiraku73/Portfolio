@@ -17,3 +17,6 @@
 
 ### 3. README del repo
 - [ ] El `README.md` está vacío. Escribir uno corto: qué es, el stack y cómo correrlo.
+
+### 4. Manejo de errores
+- [ ] Regla general (2026-11-06): revisar que haya `error.tsx` y `not-found.tsx` propios en `app/[lang]/`, con los textos en ES/EN (antes, leer `node_modules/next/dist/docs/`: Next 16 puede diferir).
